@@ -1,0 +1,282 @@
+#wemd {
+  font-family:'Songti SC','Source Han Serif SC','Noto Serif CJK SC','STSong',Georgia,serif;
+  background:transparent;
+  font-size:15px;
+}
+
+#wemd h1 {
+  font-size:27px;
+  font-weight:700;
+  color:#3F7A5C;
+  text-align:center;
+  line-height:1.45;
+  letter-spacing:1px;
+  padding:0 0 14px;
+  border-bottom:2px solid #3F7A5C;
+  margin-top:34px;
+  margin-bottom:24px;
+  font-family:'Songti SC','Source Han Serif SC','Noto Serif CJK SC','STSong',Georgia,serif;
+}
+
+#wemd h2 {
+  font-size:20px;
+  font-weight:700;
+  color:#28332A;
+  line-height:1.5;
+  padding:2px 0 2px 13px;
+  border-left:4px solid #3F7A5C;
+  margin-top:32px;
+  margin-bottom:16px;
+  font-family:'Songti SC','Source Han Serif SC','Noto Serif CJK SC','STSong',Georgia,serif;
+}
+
+#wemd h3 {
+  font-size:17px;
+  font-weight:600;
+  color:#3F7A5C;
+  line-height:1.5;
+  padding:0 0 5px;
+  border-bottom:1px solid #5C9678;
+  margin-top:26px;
+  margin-bottom:12px;
+  font-family:'Songti SC','Source Han Serif SC','Noto Serif CJK SC','STSong',Georgia,serif;
+}
+
+#wemd h4 {
+  font-size:16px;
+  font-weight:600;
+  color:#28332A;
+  border-left:2px solid #e6e3da;
+  padding:0 0 0 9px;
+  margin-top:22px;
+  margin-bottom:8px;
+  line-height:1.5;
+  font-family:'Songti SC','Source Han Serif SC','Noto Serif CJK SC','STSong',Georgia,serif;
+}
+
+#wemd h5 {
+  font-size:15px;
+  font-weight:600;
+  color:#28332A;
+  margin-top:18px;
+  margin-bottom:6px;
+  line-height:1.5;
+  font-family:'Songti SC','Source Han Serif SC','Noto Serif CJK SC','STSong',Georgia,serif;
+}
+
+#wemd h6 {
+  font-size:14px;
+  font-weight:600;
+  color:#8a857c;
+  margin-top:16px;
+  margin-bottom:6px;
+  line-height:1.5;
+  font-family:'Songti SC','Source Han Serif SC','Noto Serif CJK SC','STSong',Georgia,serif;
+}
+
+#wemd p {
+  font-size:16px;
+  color:#28332A;
+  line-height:1.85;
+  margin-top:0;
+  margin-bottom:18px;
+  letter-spacing:0.3px;
+  text-align:justify;
+  font-family:'Songti SC','Source Han Serif SC','Noto Serif CJK SC','STSong',Georgia,serif;
+}
+
+#wemd blockquote {
+  border-left:4px solid #3F7A5C;
+  background:#EEF5EF;
+  padding:14px 18px;
+  margin-top:20px;
+  margin-bottom:20px;
+  border-radius:0 6px 6px 0;
+  font-size:15px;
+  color:#8a857c;
+  line-height:1.78;
+  font-family:'Songti SC','Source Han Serif SC','Noto Serif CJK SC','STSong',Georgia,serif;
+}
+
+#wemd blockquote p {
+  font-size:15px;
+  color:#8a857c;
+  line-height:1.78;
+  margin-bottom:0;
+  background:transparent;
+  font-family:'Songti SC','Source Han Serif SC','Noto Serif CJK SC','STSong',Georgia,serif;
+}
+
+#wemd strong {
+  font-weight:700;
+  color:#28332A;
+  background:linear-gradient(180deg, transparent 56%, #DDEBDF 56%, #DDEBDF 100%);
+  padding:0 2px;
+}
+
+#wemd em {
+  font-style:normal;
+  color:#3F7A5C;
+  font-family:'Songti SC','Source Han Serif SC','Noto Serif CJK SC','STSong',Georgia,serif;
+}
+
+#wemd a {
+  color:#3F7A5C;
+  text-decoration:underline;
+}
+
+#wemd img {
+  max-width:100%;
+  border-radius:6px;
+  display:block;
+  box-shadow:0 4px 22px rgba(0,0,0,0.06);
+}
+
+#wemd figure {
+  background:transparent;
+  border-radius:6px;
+  padding:4px;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+
+#wemd hr {
+  margin-top:34px;
+  margin-bottom:34px;
+  border:none;
+  text-align:center;
+  color:#3F7A5C;
+  font-size:15px;
+  letter-spacing:10px;
+}
+
+#wemd code {
+  background:#E9F1E9;
+  padding:2px 6px;
+  border-radius:3px;
+  font-size:14px;
+  color:#3F7A5C;
+  font-family:'SF Mono', Consolas, Menlo, monospace;
+}
+
+#wemd pre {
+  background:#E9F1E9;
+  color:#28332A;
+  padding:18px;
+  border-radius:0;
+  overflow-x:auto;
+  margin-top:0;
+  margin-bottom:0;
+  font-size:13.5px;
+  line-height:1.6;
+  white-space: pre-wrap;
+  word-wrap:break-word;
+  word-break: break-all;
+}
+
+#wemd pre code {
+  background:none;
+  padding:0;
+  color:#28332A;
+  font-size:13.5px;
+  font-family:'SF Mono', Consolas, Menlo, monospace;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+#wemd table {
+  width:100%;
+  border-collapse:collapse;
+  margin-top:22px;
+  margin-bottom:22px;
+  font-size:15px;
+  overflow:hidden;
+  font-family:'Songti SC','Source Han Serif SC','Noto Serif CJK SC','STSong',Georgia,serif;
+}
+
+#wemd th {
+  background:#EEF5EF;
+  padding:10px 13px;
+  border-bottom:2px solid #3F7A5C;
+  text-align:left;
+  font-weight:700;
+  color:#28332A;
+  font-family:'Songti SC','Source Han Serif SC','Noto Serif CJK SC','STSong',Georgia,serif;
+}
+
+#wemd td {
+  padding:9px 13px;
+  border-bottom:1px solid #e6e3da;
+  color:#28332A;
+  font-family:'Songti SC','Source Han Serif SC','Noto Serif CJK SC','STSong',Georgia,serif;
+}
+
+#wemd ul, #wemd ol {
+  margin-top:18px;
+  margin-bottom:18px;
+}
+
+#wemd li {
+  display:flex;
+  margin-bottom:9px;
+  align-items:flex-start;
+  font-size:16px;
+  color:#28332A;
+  line-height:1.85;
+  letter-spacing:0.3px;
+  font-family:'Songti SC','Source Han Serif SC','Noto Serif CJK SC','STSong',Georgia,serif;
+}
+
+#wemd section.citations {
+  margin-top:32px;
+  padding-top:16px;
+  border-top:1px solid #e6e3da;
+}
+
+#wemd .citations h2 {
+  font-size:14px;
+  font-weight:bold;
+  color:#8a857c;
+  margin-bottom:12px;
+  font-family:'Songti SC','Source Han Serif SC','Noto Serif CJK SC','STSong',Georgia,serif;
+}
+
+#wemd .citations li {
+  font-size:13px;
+  color:#8a857c;
+  margin-bottom:6px;
+  line-height:1.6;
+  word-break:break-all;
+}
+
+#wemd .citations a {
+  font-size:12px;
+  color:#3F7A5C;
+  vertical-align:super;
+  margin-left:2px;
+}
+
+#wemd section.callout {
+  background:#EEF5EF;
+  border-left:4px solid #3F7A5C;
+  padding:14px 16px;
+  margin-top:16px;
+  margin-bottom:16px;
+  border-radius:0 6px 6px 0;
+}
+
+#wemd .callout-title {
+  font-weight:700;
+  color:#3F7A5C;
+  margin-bottom:8px;
+  font-size:15px;
+  font-family:'Songti SC','Source Han Serif SC','Noto Serif CJK SC','STSong',Georgia,serif;
+}
+
+#wemd .callout p:not(.callout-title) {
+  font-size:14px;
+  color:#28332A;
+  line-height:1.78;
+  letter-spacing:0.2px;
+  font-family:'Songti SC','Source Han Serif SC','Noto Serif CJK SC','STSong',Georgia,serif;
+}

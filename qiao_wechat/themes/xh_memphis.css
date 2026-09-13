@@ -1,0 +1,236 @@
+#wemd {
+  font-family:'Inter','Helvetica Neue','PingFang SC',sans-serif;
+  background:transparent;
+  font-size:15px;
+}
+
+#wemd h1 {
+  font-size:32px;
+  font-weight:900;
+  color:#0A0A0A;
+  text-align:left;
+  line-height:1.1;
+  margin-top:36px;
+  margin-bottom:26px;
+  padding:14px 20px;
+  background:#FF2E93;
+  letter-spacing:-0.01em;
+  text-transform:uppercase;
+  box-shadow:8px 8px 0 #00D4D8, 16px 16px 0 #FFD800;
+  display:inline-block;
+}
+
+#wemd h2 {
+  font-size:22px;
+  font-weight:900;
+  color:#0A0A0A;
+  line-height:1.3;
+  margin-top:34px;
+  margin-bottom:18px;
+  padding:6px 14px;
+  background:#FFD800;
+  display:inline-block;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  box-shadow:4px 4px 0 #0A0A0A;
+}
+
+#wemd h3 {
+  font-size:18px;
+  font-weight:800;
+  color:#00D4D8;
+  line-height:1.4;
+  margin-top:28px;
+  margin-bottom:14px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  border-bottom:3px solid #00D4D8;
+  padding-bottom:4px;
+  display:inline-block;
+}
+
+#wemd h4 {
+  font-size:15px;
+  font-weight:700;
+  color:#FF2E93;
+  line-height:1.45;
+  margin-top:22px;
+  margin-bottom:10px;
+  letter-spacing:1.5px;
+  font-style:italic;
+}
+
+#wemd h5 {
+  font-size:14px;
+  font-weight:700;
+  color:#0A0A0A;
+  margin-top:18px;
+  margin-bottom:8px;
+  line-height:1.45;
+}
+
+#wemd h6 {
+  font-size:12px;
+  font-weight:700;
+  color:#666666;
+  margin-top:16px;
+  margin-bottom:6px;
+  line-height:1.45;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+#wemd p {
+  font-size:15px;
+  color:#0A0A0A;
+  line-height:1.75;
+  margin-top:0;
+  margin-bottom:16px;
+  letter-spacing:0.2px;
+}
+
+#wemd blockquote {
+  background:#FFFEF0;
+  border-top:4px solid #FF2E93;
+  border-right:4px solid #00D4D8;
+  border-bottom:4px solid #FFD800;
+  border-left:4px solid #0A0A0A;
+  padding:16px 20px;
+  border-radius:0;
+  margin-top:24px;
+  margin-bottom:24px;
+  font-size:16px;
+  color:#0A0A0A;
+  line-height:1.75;
+  font-weight:600;
+}
+
+#wemd blockquote p {
+  font-size:16px;
+  color:#0A0A0A;
+  line-height:1.75;
+  margin-bottom:0;
+  background:transparent;
+  font-weight:600;
+}
+
+#wemd strong {
+  font-weight:900;
+  color:#FFFFFF;
+  background:#FF2E93;
+  padding:0 4px;
+}
+
+#wemd em {
+  font-style:italic;
+  color:#00D4D8;
+  font-weight:700;
+}
+
+#wemd a {
+  color:#0A0A0A;
+  background:#FFD800;
+  text-decoration:none;
+  padding:0 4px;
+  font-weight:700;
+}
+
+#wemd img {
+  max-width:100%;
+  display:block;
+  margin-top:20px;
+  margin-bottom:10px;
+  border:3px solid #0A0A0A;
+  box-shadow:8px 8px 0 #FF2E93;
+}
+
+#wemd figure {
+  background:transparent;
+  padding:0;
+  margin-top:20px;
+  margin-bottom:20px;
+}
+
+#wemd hr {
+  margin-top:32px;
+  margin-bottom:32px;
+  height:8px;
+  border:none;
+  background:linear-gradient(90deg,#FF2E93 0 33%,#FFD800 33% 66%,#00D4D8 66% 100%);
+}
+
+#wemd code {
+  background:#FFE5F2;
+  padding:1px 8px;
+  border-radius:0;
+  font-size:92%;
+  color:#0A0A0A;
+  font-family:'JetBrains Mono','SF Mono',monospace;
+  border:2px solid #FF2E93;
+  font-weight:600;
+}
+
+#wemd pre {
+  background:#FDFDF5;
+  color:#0A0A0A;
+  padding:14px 16px;
+  overflow-x:auto;
+  margin-top:0;
+  margin-bottom:0;
+  font-size:13px;
+  line-height:1.65;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+#wemd pre code {
+  background:none;
+  padding:0;
+  color:#0A0A0A;
+  font-size:13px;
+  font-family:'JetBrains Mono','SF Mono',monospace;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+#wemd table {
+  width:100%;
+  border-collapse:collapse;
+  margin-top:20px;
+  margin-bottom:20px;
+  font-size:14px;
+  border:3px solid #0A0A0A;
+}
+
+#wemd th {
+  padding:10px 12px;
+  text-align:left;
+  font-weight:900;
+  color:#0A0A0A;
+  background:#FFD800;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  font-size:12px;
+  border:2px solid #0A0A0A;
+}
+
+#wemd td {
+  padding:10px 12px;
+  border:2px solid #0A0A0A;
+  color:#0A0A0A;
+  background:#FFFFFF;
+}
+
+#wemd ul, #wemd ol {
+  margin-top:14px;
+  margin-bottom:14px;
+}
+
+#wemd li {
+  display:flex;
+  margin-bottom:8px;
+  align-items:flex-start;
+  font-size:15px;
+  color:#0A0A0A;
+  line-height:1.75;
+}

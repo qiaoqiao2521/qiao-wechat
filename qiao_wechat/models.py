@@ -147,6 +147,13 @@ class PublishJob(Base):
     request_json: Mapped[dict[str, Any] | None] = mapped_column(SQLiteJSON, nullable=True)
     response_json: Mapped[dict[str, Any] | None] = mapped_column(SQLiteJSON, nullable=True)
     error_message: Mapped[str | None] = mapped_column(Text, nullable=True)
+    # Failure classification, e.g. remote_rejected / remote_result_unknown /
+    # remote_unconfirmed / validation_failed / local_error. Kept as plain String
+    # (no enum CHECK) so old SQLite databases only need an ADD COLUMN migration.
+    error_category: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    # Stable idempotency key for remote actions (sha256 over account + action +
+    # content revision). Nullable: only channels with remote side effects set it.
+    request_key: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
     started_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     finished_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now(), nullable=False)

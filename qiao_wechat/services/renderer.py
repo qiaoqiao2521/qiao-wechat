@@ -202,9 +202,54 @@ body {{ margin:0; background:#f3f4f6; }}
   .preview-shell {{ max-width:none; box-shadow:none; }}
   .wechat-body {{ padding:18px 14px 24px; }}
 }}
+/* 深色模拟：近似读者在微信深色模式下看到的效果。反相 + 色相旋转近似微信的暗色映射，
+   图片/图表再反相回来保持原色。这是预览模拟，不代表微信的精确渲染。 */
+.preview-shell.dark-sim {{ background:#111; filter: invert(0.92) hue-rotate(180deg); }}
+.preview-shell.dark-sim img,
+.preview-shell.dark-sim svg,
+.preview-shell.dark-sim video {{ filter: invert(1) hue-rotate(180deg); }}
+.dark-toggle {{
+  position: fixed; top: 12px; right: 12px; z-index: 10;
+  display: flex; gap: 0; border-radius: 8px; overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,.18); font-size: 12px;
+}}
+.dark-toggle button {{
+  border: 0; padding: 6px 10px; cursor: pointer; background: #fff; color: #333; font-weight: 400;
+}}
+.dark-toggle button.active {{ background: #2563eb; color: #fff; }}
 </style>
 </head>
-<body><div class="phone-stage"><main class="preview-shell"><article class="wechat-body">{html_body}</article></main></div></body>
+<body>
+<div class="dark-toggle" id="dark-toggle" title="模拟读者微信深色模式（近似效果）">
+  <button data-mode="auto" class="active">自动</button>
+  <button data-mode="light">浅色</button>
+  <button data-mode="dark">深色(模拟)</button>
+</div>
+<div class="phone-stage"><main class="preview-shell"><article class="wechat-body">{html_body}</article></main></div>
+<script>
+(function () {{
+  var shell = document.querySelector('.preview-shell');
+  var buttons = document.querySelectorAll('#dark-toggle button');
+  var saved = null;
+  try {{ saved = localStorage.getItem('wemd-preview-dark'); }} catch (e) {{}}
+  function apply(mode) {{
+    var dark;
+    if (mode === 'dark') dark = true;
+    else if (mode === 'light') dark = false;
+    else dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    shell.classList.toggle('dark-sim', dark);
+    buttons.forEach(function (b) {{ b.classList.toggle('active', b.dataset.mode === mode); }});
+  }}
+  buttons.forEach(function (b) {{
+    b.addEventListener('click', function () {{
+      apply(b.dataset.mode);
+      try {{ localStorage.setItem('wemd-preview-dark', b.dataset.mode); }} catch (e) {{}}
+    }});
+  }});
+  apply(saved || 'auto');
+}})();
+</script>
+</body>
 </html>"""
         out_path.write_text(document, encoding="utf-8")
         return out_path

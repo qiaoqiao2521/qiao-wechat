@@ -28,6 +28,6 @@
 #wemd code { background: var(--code); padding: 0.15rem 0.35rem; border-radius: 6px; }
 #wemd .card { margin: 1.4rem 0; padding: 1rem 1.1rem; border-radius: 14px; border: 1px solid var(--line); background: var(--bg); }
 #wemd .card strong { color: var(--accent); }
-#wemd pre code { background: transparent; padding: 0; white-space: pre; }
+#wemd pre code { background: transparent; padding: 0; white-space: pre-wrap; word-break: break-all; }
 #wemd .callout { margin: 1.4rem 0; padding: 0.9rem 1rem; border-radius: 14px; border: 1px solid var(--line); background: var(--bg); }
 #wemd .callout .callout-title { font-weight: 800; margin: 0 0 0.4rem; }

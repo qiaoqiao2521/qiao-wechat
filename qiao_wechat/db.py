@@ -27,8 +27,36 @@ SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, futu
 def init_db() -> None:
     from . import models  # noqa: F401
 
+    get_settings().ensure_dirs()
     Base.metadata.create_all(engine)
+    _ensure_schema_columns(engine)
     _repair_invalid_enums()
+
+
+# Columns added after the 0.3.0 baseline. create_all only helps new databases;
+# existing ones need an explicit ADD COLUMN. Plain String columns keep the
+# migration to a simple ALTER TABLE (no enum CHECK rebuild).
+_SCHEMA_COLUMNS: dict[str, tuple[tuple[str, str], ...]] = {
+    "publish_jobs": (
+        ("error_category", "VARCHAR(64)"),
+        ("request_key", "VARCHAR(64)"),
+    ),
+}
+
+
+def _ensure_schema_columns(target_engine) -> None:
+    if target_engine.url.get_backend_name().startswith("sqlite"):
+        with target_engine.connect() as conn:
+            for table, columns in _SCHEMA_COLUMNS.items():
+                existing = {row[1] for row in conn.execute(__import__("sqlalchemy").text(f"PRAGMA table_info({table})")).fetchall()}
+                if not existing:
+                    continue
+                for column_name, column_type in columns:
+                    if column_name not in existing:
+                        conn.execute(
+                            __import__("sqlalchemy").text(f"ALTER TABLE {table} ADD COLUMN {column_name} {column_type}")
+                        )
+            conn.commit()
 
 
 def _repair_invalid_enums() -> None:

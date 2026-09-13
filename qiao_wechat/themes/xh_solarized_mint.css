@@ -1,0 +1,244 @@
+#wemd {
+  font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Helvetica Neue',sans-serif;
+  background:transparent;
+  font-size:15px;
+}
+
+#wemd h1 {
+  font-size:26px;
+  font-weight:700;
+  color:#073642;
+  text-align:center;
+  line-height:1.4;
+  margin-top:32px;
+  margin-bottom:24px;
+  padding-bottom:14px;
+  background-image:linear-gradient(#2AA198,#2AA198);
+  background-repeat:no-repeat;
+  background-size:48px 3px;
+  background-position:center bottom;
+}
+
+#wemd h2 {
+  font-size:21px;
+  font-weight:700;
+  color:#073642;
+  line-height:1.45;
+  margin-top:30px;
+  margin-bottom:16px;
+  padding-bottom:8px;
+  border-bottom:1px solid #2AA198;
+}
+
+#wemd h3 {
+  font-size:18px;
+  font-weight:600;
+  color:#2AA198;
+  line-height:1.5;
+  margin-top:24px;
+  margin-bottom:12px;
+  padding-left:10px;
+  border-left:3px solid #2AA198;
+}
+
+#wemd h4 {
+  font-size:16px;
+  font-weight:600;
+  color:#073642;
+  line-height:1.55;
+  margin-top:20px;
+  margin-bottom:10px;
+  padding-left:8px;
+  border-left:2px solid #2AA198;
+}
+
+#wemd h5 {
+  font-size:15px;
+  font-weight:600;
+  color:#586E75;
+  margin-top:18px;
+  margin-bottom:8px;
+  line-height:1.55;
+}
+
+#wemd h6 {
+  font-size:13px;
+  font-weight:600;
+  color:#93A1A1;
+  margin-top:16px;
+  margin-bottom:6px;
+  line-height:1.55;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+}
+
+#wemd p {
+  font-size:16px;
+  color:#586E75;
+  line-height:1.85;
+  margin-top:0;
+  margin-bottom:16px;
+  letter-spacing:0.2px;
+  text-align:justify;
+}
+
+#wemd blockquote {
+  border-left:4px solid #2AA198;
+  background:#EEE8D5;
+  padding:14px 18px;
+  border-radius:0 6px 6px 0;
+  margin-top:20px;
+  margin-bottom:20px;
+  font-size:15px;
+  color:#657B83;
+  line-height:1.8;
+}
+
+#wemd blockquote p {
+  font-size:15px;
+  color:#657B83;
+  line-height:1.8;
+  margin-bottom:0;
+  letter-spacing:0.2px;
+  background:transparent;
+}
+
+#wemd strong {
+  font-weight:700;
+  color:#268BD2;
+}
+
+#wemd em {
+  font-style:italic;
+  color:#6C71C4;
+}
+
+#wemd a {
+  color:#268BD2;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+#wemd img {
+  max-width:100%;
+  border-radius:8px;
+  display:block;
+  box-shadow:0 4px 12px rgba(7,54,66,0.08);
+  margin-top:16px;
+  margin-bottom:8px;
+}
+
+#wemd figure {
+  background:transparent;
+  padding:0;
+  margin-top:16px;
+  margin-bottom:16px;
+}
+
+#wemd hr {
+  margin-top:32px;
+  margin-bottom:32px;
+  height:1px;
+  border:none;
+  background:linear-gradient(90deg,transparent,#2AA198,transparent);
+}
+
+#wemd code {
+  background:#EEE8D5;
+  padding:2px 6px;
+  border-radius:4px;
+  font-size:92%;
+  color:#268BD2;
+  font-family:'SF Mono','JetBrains Mono',Menlo,Consolas,monospace;
+}
+
+#wemd pre {
+  background:#FDF6E3;
+  color:#586E75;
+  padding:14px 16px;
+  border-radius:0;
+  overflow-x:auto;
+  margin-top:0;
+  margin-bottom:0;
+  font-size:13px;
+  line-height:1.7;
+  white-space: pre-wrap;
+  word-wrap:break-word;
+  word-break: break-all;
+}
+
+#wemd pre code {
+  background:none;
+  padding:0;
+  color:#586E75;
+  font-size:13px;
+  font-family:'SF Mono','JetBrains Mono',Menlo,Consolas,monospace;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+#wemd table {
+  width:100%;
+  border-collapse:collapse;
+  margin-top:18px;
+  margin-bottom:18px;
+  font-size:14px;
+}
+
+#wemd th {
+  padding:10px 12px;
+  text-align:left;
+  font-weight:600;
+  color:#FDF6E3;
+  background:#2AA198;
+  border-bottom:1px solid #2AA198;
+}
+
+#wemd td {
+  padding:8px 12px;
+  border-bottom:1px solid #EEE8D5;
+  color:#586E75;
+}
+
+#wemd ul, #wemd ol {
+  margin-top:12px;
+  margin-bottom:12px;
+}
+
+#wemd li {
+  display:flex;
+  margin-bottom:6px;
+  align-items:flex-start;
+  font-size:16px;
+  color:#586E75;
+  line-height:1.85;
+  letter-spacing:0.2px;
+}
+
+#wemd section.citations {
+  margin-top:32px;
+  padding-top:16px;
+  border-top:1px dashed #EEE8D5;
+}
+
+#wemd .citations h2 {
+  font-size:14px;
+  font-weight:bold;
+  color:#586E75;
+  margin-bottom:12px;
+}
+
+#wemd .citations li {
+  font-size:13px;
+  color:#93A1A1;
+  margin-bottom:6px;
+  line-height:1.6;
+  word-break:break-all;
+}
+
+#wemd .citations a {
+  font-size:12px;
+  color:#2AA198;
+  vertical-align:super;
+  margin-left:2px;
+}

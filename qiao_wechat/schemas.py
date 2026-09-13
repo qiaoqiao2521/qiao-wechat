@@ -50,6 +50,9 @@ class HtmlDraftOptions(BaseModel):
     upload_inline_images: bool = True
     force_reupload_cover: bool = False
     create_local_preview: bool = True
+    # Re-submit even if this content revision already has a recorded draft or an
+    # unknown remote outcome. Only after checking the WeChat draft box.
+    force_new: bool = False
 
 
 class HtmlDraftCreate(BaseModel):
@@ -142,6 +145,18 @@ class RenderRequest(BaseModel):
 class DraftRequest(BaseModel):
     upload_inline_images: bool = True
     force_reupload_cover: bool = False
+    # Re-submit even if a previous attempt with the same content revision already
+    # succeeded or ended with an unknown remote outcome. Only use after checking
+    # the WeChat draft box; the default reuses the recorded result instead.
+    force_new: bool = False
+
+
+class BatchDraftRequest(BaseModel):
+    article_ids: list[int] = Field(min_length=1, max_length=50)
+    upload_inline_images: bool = True
+    force_reupload_cover: bool = False
+    # Applies to every item: only after checking the WeChat draft box.
+    force_new: bool = False
 
 
 class PreviewRequest(BaseModel):
@@ -164,6 +179,7 @@ class JobOut(BaseModel):
     request_json: dict[str, Any] | None
     response_json: dict[str, Any] | None
     error_message: str | None
+    error_category: str | None = None
     created_at: datetime
 
     model_config = {"from_attributes": True}

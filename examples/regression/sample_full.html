@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>排版回归样本：外部 HTML</title>
+<style>
+  .demo-body { font-family: sans-serif; color: #333; }
+  .demo-quote { border-left: 4px solid #07c160; padding: 8px 12px; color: #555; }
+  .demo-table { border-collapse: collapse; width: 100%; }
+  .demo-table th, .demo-table td { border: 1px solid #ddd; padding: 6px 8px; }
+</style>
+</head>
+<body>
+<section class="demo-body">
+  <h1>外部 HTML 排版样本</h1>
+  <p>这一段由外部编辑器渲染，包含<strong>加粗</strong>、<em>斜体</em>和<code>行内代码</code>。HTML 入口必须保留这些既有样式，不重新走 Markdown 主题渲染。</p>
+  <blockquote class="demo-quote">这是外部 HTML 中的引用块，左边框颜色是上游排版意图的一部分。</blockquote>
+  <h2>表格与图片</h2>
+  <table class="demo-table">
+    <thead>
+      <tr><th>要素</th><th>验证点</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>样式内联</td><td>提交时保留 border 与 padding</td></tr>
+      <tr><td>相对图片</td><td>按 asset_base_dir 解析并上传为微信图床地址</td></tr>
+      <tr><td>这是一个非常长的单元格用来测试窄屏下的换行表现是否正常</td><td>长文本应折行</td></tr>
+    </tbody>
+  </table>
+  <p>透明背景图片：</p>
+  <p><img src="assets/transparent.png" alt="透明示例" width="240" /></p>
+  <h2>代码与长链接</h2>
+  <pre><code>print("外部 HTML 代码块")</code></pre>
+  <p>参考：<a href="https://developers.weixin.qq.com/doc/offiaccount/Draft_Box/Add_draft.html">草稿箱文档</a>；该链接较长，转换参考链接后不应撑破窄屏排版。</p>
+</section>
+</body>
+</html>

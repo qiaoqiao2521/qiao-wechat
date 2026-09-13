@@ -36,4 +36,7 @@ requires = ["setuptools>=69", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-packages = ["qiao_wechat"]
+packages = ["qiao_wechat", "qiao_wechat.services"]
+
+[tool.setuptools.package-data]
+qiao_wechat = ["themes/*.css", "themes/*.json"]

@@ -1,0 +1,248 @@
+#wemd {
+  font-family:'PingFang SC','Songti SC','Source Han Serif SC','Noto Serif CJK SC',serif;
+  background:transparent;
+  font-size:15px;
+}
+
+#wemd h1 {
+  font-size:26px;
+  font-weight:700;
+  color:#C96442;
+  text-align:center;
+  line-height:1.4;
+  margin-top:32px;
+  margin-bottom:22px;
+  padding-bottom:12px;
+  border-bottom:2px solid #C96442;
+  font-family:'PingFang SC','Songti SC','Source Han Serif SC',serif;
+}
+
+#wemd h2 {
+  font-size:22px;
+  font-weight:700;
+  color:#3D2E20;
+  line-height:1.45;
+  margin-top:30px;
+  margin-bottom:16px;
+  padding-left:14px;
+  border-left:4px solid #3D2E20;
+  font-family:'PingFang SC','Songti SC','Source Han Serif SC',serif;
+}
+
+#wemd h3 {
+  font-size:19px;
+  font-weight:600;
+  color:#C96442;
+  line-height:1.5;
+  margin-top:24px;
+  margin-bottom:12px;
+  padding-bottom:6px;
+  border-bottom:1px solid #C96442;
+  font-family:'PingFang SC','Songti SC','Source Han Serif SC',serif;
+}
+
+#wemd h4 {
+  font-size:17px;
+  font-weight:600;
+  color:#3D2E20;
+  line-height:1.55;
+  margin-top:20px;
+  margin-bottom:10px;
+  padding-left:10px;
+  border-left:3px solid #C96442;
+}
+
+#wemd h5 {
+  font-size:16px;
+  font-weight:600;
+  color:#6B5D4F;
+  margin-top:18px;
+  margin-bottom:8px;
+  line-height:1.55;
+}
+
+#wemd h6 {
+  font-size:15px;
+  font-weight:600;
+  color:#9C8E7F;
+  margin-top:16px;
+  margin-bottom:6px;
+  line-height:1.55;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+
+#wemd p {
+  font-size:16px;
+  color:#3D2E20;
+  line-height:1.85;
+  margin-top:0;
+  margin-bottom:16px;
+  letter-spacing:0.3px;
+  text-align:justify;
+}
+
+#wemd blockquote {
+  border-left:4px solid #C96442;
+  background:#FAF3EB;
+  padding:14px 18px;
+  border-radius:0 6px 6px 0;
+  margin-top:20px;
+  margin-bottom:20px;
+  font-size:15px;
+  color:#6B5D4F;
+  line-height:1.75;
+}
+
+#wemd blockquote p {
+  font-size:15px;
+  color:#6B5D4F;
+  line-height:1.75;
+  margin-bottom:0;
+  letter-spacing:0.3px;
+  background:transparent;
+}
+
+#wemd strong {
+  font-weight:700;
+  color:#3D2E20;
+  background:linear-gradient(180deg, rgba(201,100,66,0) 0%, rgba(201,100,66,0) 60%, rgba(245,227,215,0.7) 60%, rgba(245,227,215,0.7) 100%);
+  padding:0 2px;
+}
+
+#wemd em {
+  font-style:italic;
+  color:#6B5D4F;
+}
+
+#wemd a {
+  color:#C96442;
+  text-decoration:none;
+  border-bottom:1px dashed #C96442;
+  padding-bottom:1px;
+}
+
+#wemd img {
+  max-width:100%;
+  border-radius:8px;
+  display:block;
+  margin-top:16px;
+  margin-bottom:8px;
+}
+
+#wemd figure {
+  background:#FAF9F6;
+  padding:0;
+  margin-top:16px;
+  margin-bottom:16px;
+}
+
+#wemd hr {
+  margin-top:32px;
+  margin-bottom:32px;
+  border:none;
+  text-align:center;
+  color:#C96442;
+  font-size:14px;
+  letter-spacing:8px;
+}
+
+#wemd code {
+  background:#F5E3D7;
+  padding:2px 6px;
+  border-radius:4px;
+  font-size:92%;
+  color:#C96442;
+  font-family:'SF Mono','JetBrains Mono',Menlo,Consolas,monospace;
+}
+
+#wemd pre {
+  background:#FAF7F0;
+  color:#3D2E20;
+  padding:14px 16px;
+  border-radius:0;
+  overflow-x:auto;
+  margin-top:0;
+  margin-bottom:0;
+  font-size:13px;
+  line-height:1.7;
+  white-space: pre-wrap;
+  word-wrap:break-word;
+  word-break: break-all;
+}
+
+#wemd pre code {
+  background:none;
+  padding:0;
+  color:#3D2E20;
+  font-size:13px;
+  font-family:'SF Mono','JetBrains Mono',Menlo,Consolas,monospace;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+#wemd table {
+  width:100%;
+  border-collapse:collapse;
+  margin-top:18px;
+  margin-bottom:18px;
+  font-size:14px;
+}
+
+#wemd th {
+  padding:10px 12px;
+  text-align:left;
+  font-weight:600;
+  color:#C96442;
+  background:#FAF3EB;
+  border-bottom:1px solid #EAE3D4;
+}
+
+#wemd td {
+  padding:8px 12px;
+  border-bottom:1px solid #EAE3D4;
+  color:#3D2E20;
+}
+
+#wemd ul, #wemd ol {
+  margin-top:12px;
+  margin-bottom:12px;
+}
+
+#wemd li {
+  display:flex;
+  margin-bottom:6px;
+  align-items:flex-start;
+  font-size:16px;
+  color:#3D2E20;
+  line-height:1.85;
+  letter-spacing:0.3px;
+}
+
+#wemd section.citations {
+  margin-top:32px;
+  padding-top:16px;
+  border-top:1px dashed #EAE3D4;
+}
+
+#wemd .citations h2 {
+  font-size:14px;
+  font-weight:bold;
+  color:#6B5D4F;
+  margin-bottom:12px;
+}
+
+#wemd .citations li {
+  font-size:13px;
+  color:#9C8E7F;
+  margin-bottom:6px;
+  line-height:1.6;
+  word-break:break-all;
+}
+
+#wemd .citations a {
+  font-size:12px;
+  color:#C96442;
+  vertical-align:super;
+  margin-left:2px;
+}

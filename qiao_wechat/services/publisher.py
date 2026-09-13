@@ -1,10 +1,16 @@
 from __future__ import annotations
 
+import hashlib
+import json
+import logging
 import re
+import shutil
+import threading
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+import requests
 from bs4 import BeautifulSoup
 from sqlalchemy.orm import Session
 
@@ -16,6 +22,39 @@ from .obsidian_assets import ObsidianAssetAdapter
 from .quality_gate import QualityGate
 from .renderer import WeChatMarkdownRenderer
 from .wechat_client import WeChatApiClient, WeChatError
+
+_LOGGER = logging.getLogger(__name__)
+
+# Failure classifications persisted on PublishJob.error_category. Plain strings:
+# no enum CHECK constraint, so old SQLite databases only need ADD COLUMN.
+ERROR_CATEGORY_REMOTE_REJECTED = "remote_rejected"
+ERROR_CATEGORY_REMOTE_UNKNOWN = "remote_result_unknown"
+ERROR_CATEGORY_REMOTE_UNCONFIRMED = "remote_unconfirmed"
+ERROR_CATEGORY_VALIDATION = "validation_failed"
+ERROR_CATEGORY_LOCAL = "local_error"
+
+_REMOTE_UNKNOWN_HINT = (
+    "The request was sent but its remote outcome is unknown (timeout/connection loss). "
+    "Check the WeChat Official Account draft box for a draft with this title first; "
+    "retry with force_new only after confirming no draft was created."
+)
+
+_DRAFT_KEY_LOCKS: dict[str, threading.Lock] = {}
+_DRAFT_KEY_LOCKS_GUARD = threading.Lock()
+
+
+def _draft_lock(request_key: str) -> threading.Lock:
+    """Serialize draft submission per request key within this process.
+
+    This suppresses local duplicate execution (API + scheduler in one process).
+    Cross-process dedup relies on the persisted request_key, not this lock.
+    """
+    with _DRAFT_KEY_LOCKS_GUARD:
+        lock = _DRAFT_KEY_LOCKS.get(request_key)
+        if lock is None:
+            lock = threading.Lock()
+            _DRAFT_KEY_LOCKS[request_key] = lock
+        return lock
 
 
 class PublishService:
@@ -48,6 +87,7 @@ class PublishService:
         upload_inline_images: bool = True,
         force_reupload_cover: bool = False,
         create_local_preview: bool = True,
+        force_new: bool = False,
     ) -> Article:
         account = self.session.get(WeChatAccount, account_id)
         if not account:
@@ -71,15 +111,26 @@ class PublishService:
             theme="html",
             meta=article_meta,
         )
-        self.prepare_html_article(
-            article.id,
-            upload_inline_images=upload_inline_images,
-            create_local_preview=create_local_preview,
-        )
+        try:
+            self.prepare_html_article(
+                article.id,
+                upload_inline_images=upload_inline_images,
+                create_local_preview=create_local_preview,
+            )
+        except Exception as exc:
+            self._persist_failure(
+                article,
+                None,
+                exc,
+                error_category=self._classify_error(exc, submitted=False),
+                meta_patch={"failure_stage": "prepare_html"},
+            )
+            raise
         return self.create_wechat_draft(
             article.id,
             upload_inline_images=False,
             force_reupload_cover=force_reupload_cover,
+            force_new=force_new,
         )
 
     def create_html_file_draft(
@@ -97,6 +148,7 @@ class PublishService:
         upload_inline_images: bool = True,
         force_reupload_cover: bool = False,
         create_local_preview: bool = True,
+        force_new: bool = False,
     ) -> Article:
         path = Path(html_path).expanduser().resolve()
         if not path.exists() or not path.is_file():
@@ -120,6 +172,7 @@ class PublishService:
             upload_inline_images=upload_inline_images,
             force_reupload_cover=force_reupload_cover,
             create_local_preview=create_local_preview,
+            force_new=force_new,
         )
 
     def prepare_html_article(
@@ -134,6 +187,12 @@ class PublishService:
             raise ValueError("article.html is required")
         html = self.html_normalizer.normalize(article.html)
         article.html = html
+        # Stamp the content revision before media URLs are substituted, so the
+        # draft request key stays stable across retries of the same input.
+        article.meta = {
+            **(article.meta or {}),
+            "content_revision": self._compute_content_revision(article),
+        }
         if upload_inline_images:
             account = self._require_account(article)
             client = WeChatApiClient(self.session, account)
@@ -144,7 +203,8 @@ class PublishService:
             article.html = html
         if create_local_preview:
             out = self.settings.output_dir / f"article_{article.id}" / "wechat_preview.html"
-            WeChatMarkdownRenderer().save_preview(html, out, page_title=article.title)
+            preview_html = self._materialize_preview_images(html, article)
+            WeChatMarkdownRenderer().save_preview(preview_html, out, page_title=article.title)
             article.local_preview_path = str(out)
             article.meta = {**(article.meta or {}), "local_preview_url": f"{self.settings.app_base_url}/preview/article/{article.id}"}
             self._job(article, PublishChannel.local_preview, JobStatus.success, response={"path": str(out)})
@@ -164,41 +224,95 @@ class PublishService:
             client = WeChatApiClient(self.session, account)
             html = renderer.replace_image_sources(html, lambda src: self._upload_inline(account, client, src, base_dir=markdown_dir))
         out = self.settings.output_dir / f"article_{article.id}" / "wechat_preview.html"
-        renderer.save_preview(html, out, page_title=article.title)
+        preview_html = self._materialize_preview_images(html, article, base_dir=markdown_dir)
+        renderer.save_preview(preview_html, out, page_title=article.title)
+        # Stamp the revision from the raw markdown BEFORE article.html is overwritten
+        # with rendered output, so the value matches what _draft_request_key computes
+        # on the first call (before any render has happened).
+        content_revision = self._compute_content_revision(article, theme=theme_name)
         article.html = html
         article.theme = theme_name
         article.local_preview_path = str(out)
         article.status = ArticleStatus.rendered
-        article.meta = {**(article.meta or {}), "local_preview_url": f"{self.settings.app_base_url}/preview/article/{article.id}"}
+        article.meta = {
+            **(article.meta or {}),
+            "local_preview_url": f"{self.settings.app_base_url}/preview/article/{article.id}",
+            "content_revision": content_revision,
+        }
         self._job(article, PublishChannel.local_preview, JobStatus.success, response={"path": str(out)})
         self.session.flush()
         return article
 
-    def create_wechat_draft(self, article_id: int, *, upload_inline_images: bool = True, force_reupload_cover: bool = False) -> Article:
+    def create_wechat_draft(
+        self,
+        article_id: int,
+        *,
+        upload_inline_images: bool = True,
+        force_reupload_cover: bool = False,
+        force_new: bool = False,
+    ) -> Article:
         article = self._article(article_id)
         account = self._require_account(article)
+        request_key = self._draft_request_key(article, account)
+        with _draft_lock(request_key):
+            return self._create_wechat_draft_locked(
+                article,
+                account,
+                request_key,
+                upload_inline_images=upload_inline_images,
+                force_reupload_cover=force_reupload_cover,
+                force_new=force_new,
+            )
+
+    def _create_wechat_draft_locked(
+        self,
+        article: Article,
+        account: WeChatAccount,
+        request_key: str,
+        *,
+        upload_inline_images: bool,
+        force_reupload_cover: bool,
+        force_new: bool,
+    ) -> Article:
         client = WeChatApiClient(self.session, account)
+        if not force_new:
+            reused = self._try_reuse_previous_draft(article, account.id, request_key)
+            if reused is not None:
+                return reused
+            self._raise_if_outcome_unknown(account.id, request_key)
+
         if not article.html or upload_inline_images:
-            self.render_article(article_id, upload_inline_images=upload_inline_images)
+            self.render_article(article.id, upload_inline_images=upload_inline_images)
             self.session.flush()
-            article = self._article(article_id)
-        article.html = self._externalize_inline_svgs(article, account, client, article.html)
-        cover_media_id = self._ensure_cover_media_id(article, account, client, force_reupload=force_reupload_cover)
-        wx_article = {
-            "article_type": "news",
-            "title": article.title[:32],
-            "thumb_media_id": cover_media_id,
-            "author": (article.author or account.author or self.settings.default_author or "")[:16],
-            "digest": (article.digest or self._auto_digest(article.markdown or article.html or ""))[:128],
-            "content": self._prepare_wechat_draft_content(article, article.html),
-            "content_source_url": (article.content_source_url or "")[:1024],
-            "need_open_comment": 0,
-            "only_fans_can_comment": 0,
-        }
-        self._validate_rendered_publish_artifacts(article.title, wx_article["content"])
-        self._validate_draft_content(wx_article["content"])
-        job = self._job(article, PublishChannel.wx_draft, JobStatus.running, request={"articles": [{**wx_article, "content": "<omitted>"}]})
+            article = self._article(article.id)
+
+        job = self._job(
+            article,
+            PublishChannel.wx_draft,
+            JobStatus.running,
+            request={"title": article.title, "request_key": request_key},
+        )
+        job.request_key = request_key
+        self.session.flush()
+        submitted = False
         try:
+            article.html = self._externalize_inline_svgs(article, account, client, article.html)
+            cover_media_id = self._ensure_cover_media_id(article, account, client, force_reupload=force_reupload_cover)
+            wx_article = {
+                "article_type": "news",
+                "title": article.title[:32],
+                "thumb_media_id": cover_media_id,
+                "author": (article.author or account.author or self.settings.default_author or "")[:16],
+                "digest": (article.digest or self._auto_digest(article.markdown or article.html or ""))[:128],
+                "content": self._prepare_wechat_draft_content(article, article.html),
+                "content_source_url": (article.content_source_url or "")[:1024],
+                "need_open_comment": 0,
+                "only_fans_can_comment": 0,
+            }
+            self._validate_rendered_publish_artifacts(article.title, wx_article["content"])
+            self._validate_draft_content(wx_article["content"])
+            job.request_json = {"request_key": request_key, "articles": [{**wx_article, "content": "<omitted>"}]}
+            submitted = True
             payload = client.add_draft([wx_article])
             media_id = payload["media_id"]
             article.wx_draft_media_id = media_id
@@ -206,16 +320,91 @@ class PublishService:
             job.status = JobStatus.success
             job.response_json = payload
             job.finished_at = _utcnow_naive()
+            article.meta = {**(article.meta or {}), "draft_outcome": "created", "draft_request_key": request_key}
         except Exception as exc:
-            article.status = ArticleStatus.failed
-            job.status = JobStatus.failed
-            job.error_message = str(exc)
-            if isinstance(exc, WeChatError):
-                job.response_json = exc.payload
-            job.finished_at = _utcnow_naive()
+            category = self._classify_error(exc, submitted=submitted)
+            meta_patch = {
+                "draft_outcome": "unknown" if category == ERROR_CATEGORY_REMOTE_UNKNOWN else "failed",
+                "draft_request_key": request_key,
+                "draft_failure_stage": "submit" if submitted else "prepare",
+            }
+            if category == ERROR_CATEGORY_REMOTE_UNKNOWN:
+                meta_patch["draft_reconcile_hint"] = _REMOTE_UNKNOWN_HINT
+            self._persist_failure(article, job, exc, error_category=category, meta_patch=meta_patch)
             raise
-        self.session.flush()
+        # Success path: persist the remote outcome before returning. A commit failure
+        # here means the draft exists remotely but was not recorded — an unknown
+        # result, handled separately so it cannot be overwritten by the submit
+        # failure path above.
+        article_snapshot = {
+            "id": article.id,
+            "account_id": article.account_id,
+            "title": article.title,
+            "markdown": article.markdown or "",
+        }
+        job_snapshot = {"id": job.id, "channel": job.channel}
+        try:
+            self.session.commit()
+        except Exception as commit_exc:
+            self.session.rollback()
+            self._persist_unknown_after_commit_failure(article_snapshot, job_snapshot, request_key, commit_exc)
+            raise
         return article
+
+    def create_wechat_drafts_batch(
+        self,
+        article_ids: list[int],
+        *,
+        upload_inline_images: bool = True,
+        force_reupload_cover: bool = False,
+        force_new: bool = False,
+    ) -> dict[str, Any]:
+        """Create WeChat drafts for multiple articles, draft-only, best-effort.
+
+        One article's failure never aborts the rest. Each item goes through the same
+        idempotent create_wechat_draft path, so duplicates reuse recorded results.
+        Returns a summary; callers surface it as-is (CLI/API), no partial progress
+        faking: every entry reflects the real per-article outcome.
+        """
+        results: list[dict[str, Any]] = []
+        for article_id in article_ids:
+            try:
+                article = self.create_wechat_draft(
+                    article_id,
+                    upload_inline_images=upload_inline_images,
+                    force_reupload_cover=force_reupload_cover,
+                    force_new=force_new,
+                )
+                outcome = (article.meta or {}).get("draft_outcome", "created")
+                results.append(
+                    {
+                        "article_id": article_id,
+                        "ok": True,
+                        "outcome": outcome,
+                        "media_id": article.wx_draft_media_id,
+                    }
+                )
+            except Exception as exc:  # noqa: BLE001 - 批量语义：单篇失败不中断
+                # 失败明细与 error_category 已由 create_wechat_draft 持久化到任务记录；
+                # 这里只做展示用分类。
+                category = self._classify_error(exc, submitted=True)
+                results.append(
+                    {
+                        "article_id": article_id,
+                        "ok": False,
+                        "outcome": "unknown" if category == ERROR_CATEGORY_REMOTE_UNKNOWN else "failed",
+                        "media_id": None,
+                        "error": str(exc),
+                        "error_category": category,
+                    }
+                )
+        return {
+            "results": results,
+            "total": len(results),
+            "created": sum(1 for r in results if r["ok"] and r["outcome"] == "created"),
+            "reused": sum(1 for r in results if r["ok"] and r["outcome"] == "reused"),
+            "failed": sum(1 for r in results if not r["ok"]),
+        }
 
     def send_preview(self, article_id: int, *, touser_openid: str | None = None, towxname: str | None = None) -> dict[str, Any]:
         self._require_preview_enabled()
@@ -236,12 +425,13 @@ class PublishService:
             self.session.flush()
             return payload
         except Exception as exc:
-            job.status = JobStatus.failed
-            job.error_message = str(exc)
-            if isinstance(exc, WeChatError):
-                job.response_json = exc.payload
-            job.finished_at = _utcnow_naive()
-            self.session.flush()
+            self._persist_failure(
+                article,
+                job,
+                exc,
+                error_category=self._classify_error(exc, submitted=True),
+                mark_article_failed=False,
+            )
             raise
 
     def submit_freepublish(self, article_id: int) -> Article:
@@ -264,12 +454,13 @@ class PublishService:
             job.response_json = payload
             job.finished_at = _utcnow_naive()
         except Exception as exc:
-            article.status = ArticleStatus.failed
-            job.status = JobStatus.failed
-            job.error_message = str(exc)
-            if isinstance(exc, WeChatError):
-                job.response_json = exc.payload
-            job.finished_at = _utcnow_naive()
+            self._persist_failure(
+                article,
+                job,
+                exc,
+                error_category=self._classify_error(exc, submitted=True),
+                meta_patch={"failure_stage": "freepublish_submit"},
+            )
             raise
         self.session.flush()
         return article
@@ -542,6 +733,284 @@ class PublishService:
         if not account:
             raise KeyError(f"wechat account not found: {article.account_id}")
         return account
+
+    # --- draft idempotency and failure persistence -------------------------------
+
+    def _materialize_preview_images(self, html: str, article: Article, *, base_dir: Path | None = None) -> str:
+        """Copy locally referenced images next to the preview file and rewrite srcs.
+
+        Relative image paths cannot resolve from the preview output directory, so the
+        local preview would show broken images even though draft upload handles them
+        later. Only the preview file is rewritten; article.html is left untouched.
+        """
+        soup = BeautifulSoup(html, "html.parser")
+        changed = False
+        assets_dir = None
+        for img in soup.find_all("img"):
+            src = img.get("src")
+            if not src or src.startswith(("http://", "https://", "data:", "mock:")):
+                continue
+            source = self._resolve_preview_image_source(src, base_dir)
+            if source is None:
+                continue
+            if assets_dir is None:
+                assets_dir = self.settings.output_dir / f"article_{article.id}" / "assets"
+                assets_dir.mkdir(parents=True, exist_ok=True)
+            digest = hashlib.sha256(source.read_bytes()).hexdigest()[:12]
+            target = assets_dir / f"{digest}{source.suffix.lower()}"
+            if not target.exists():
+                shutil.copy2(source, target)
+            img["src"] = f"assets/{target.name}"
+            changed = True
+        if not changed:
+            return html
+        return str(soup)
+
+    def _resolve_preview_image_source(self, src: str, base_dir: Path | None) -> Path | None:
+        from urllib.parse import unquote
+
+        decoded = unquote(src.split("?", 1)[0].split("#", 1)[0])
+        candidates = []
+        if decoded.startswith("/"):
+            candidates.append(Path(decoded))
+        elif base_dir is not None:
+            candidates.append(base_dir / decoded)
+        else:
+            candidates.append(Path(decoded))
+        for candidate in candidates:
+            try:
+                resolved = candidate.resolve()
+            except OSError:
+                continue
+            if resolved.is_file():
+                return resolved
+        return None
+
+    @staticmethod
+    def _compute_content_revision(article: Article, *, theme: str | None = None) -> str:
+        """Stable hash over the inputs that determine the produced draft.
+
+        Computed from the raw markdown (or pre-substitution normalized HTML) plus
+        draft metadata, so retries of the same input hash the same while real
+        content or theme changes produce a new revision.
+        """
+        payload = {
+            "account_id": article.account_id,
+            "ingress": (article.meta or {}).get("content_ingress", "markdown"),
+            "title": article.title,
+            "author": article.author or "",
+            "digest": article.digest or "",
+            "cover_source": article.cover_source or "",
+            "content_source_url": article.content_source_url or "",
+            "theme": theme if theme is not None else (article.theme or ""),
+            "content": article.markdown or article.html or "",
+        }
+        canonical = json.dumps(payload, ensure_ascii=False, sort_keys=True)
+        return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+    def _draft_request_key(self, article: Article, account: WeChatAccount) -> str:
+        revision = (article.meta or {}).get("content_revision")
+        if not revision:
+            revision = self._compute_content_revision(article)
+        return hashlib.sha256(f"{account.id}:wx_draft:{revision}".encode("utf-8")).hexdigest()
+
+    def _find_previous_draft_job(self, account_id: int, request_key: str, *, status: JobStatus) -> PublishJob | None:
+        return (
+            self.session.query(PublishJob)
+            .filter(
+                PublishJob.channel == PublishChannel.wx_draft,
+                PublishJob.account_id == account_id,
+                PublishJob.request_key == request_key,
+                PublishJob.status == status,
+            )
+            .order_by(PublishJob.id.desc())
+            .first()
+        )
+
+    def _try_reuse_previous_draft(self, article: Article, account_id: int, request_key: str) -> Article | None:
+        previous = self._find_previous_draft_job(account_id, request_key, status=JobStatus.success)
+        if previous is None:
+            return None
+        media_id = (previous.response_json or {}).get("media_id")
+        if not media_id:
+            return None
+        article.wx_draft_media_id = media_id
+        article.status = ArticleStatus.draft_created
+        article.meta = {
+            **(article.meta or {}),
+            "draft_outcome": "reused",
+            "draft_request_key": request_key,
+            "reused_from_job_id": previous.id,
+        }
+        reuse_job = self._job(
+            article,
+            PublishChannel.wx_draft,
+            JobStatus.success,
+            request={"request_key": request_key, "reused_job_id": previous.id},
+            response={"media_id": media_id, "reused": True},
+        )
+        reuse_job.request_key = request_key
+        self.session.commit()
+        return article
+
+    def _raise_if_outcome_unknown(self, account_id: int, request_key: str) -> None:
+        previous = self._find_previous_draft_job(account_id, request_key, status=JobStatus.failed)
+        if previous is not None and previous.error_category == ERROR_CATEGORY_REMOTE_UNKNOWN:
+            raise ValueError(
+                f"previous draft attempt (job #{previous.id}) has an unknown remote outcome; "
+                f"a draft with this content may already exist in the WeChat draft box. "
+                f"{_REMOTE_UNKNOWN_HINT}"
+            )
+
+    @staticmethod
+    def _classify_error(exc: Exception, *, submitted: bool) -> str:
+        if isinstance(exc, WeChatError):
+            return ERROR_CATEGORY_REMOTE_REJECTED
+        if isinstance(exc, (requests.Timeout, requests.ConnectionError)):
+            # Once the request was sent the remote outcome cannot be known locally;
+            # before that, only local state needs cleanup (retrying is safe).
+            return ERROR_CATEGORY_REMOTE_UNKNOWN if submitted else ERROR_CATEGORY_REMOTE_UNCONFIRMED
+        if isinstance(exc, ValueError):
+            return ERROR_CATEGORY_VALIDATION
+        return ERROR_CATEGORY_LOCAL
+
+    def _persist_failure(
+        self,
+        article: Article,
+        job: PublishJob | None,
+        exc: Exception,
+        *,
+        error_category: str,
+        mark_article_failed: bool = True,
+        meta_patch: dict[str, Any] | None = None,
+    ) -> None:
+        """Make the failure record durable before the caller re-raises.
+
+        API get_db / db_session roll back after an exception, which erases the
+        attempt entirely (the article row included, for fresh articles) — verified
+        by regression. Commit the failure state here so operators can query what
+        happened in a new session. If the database itself refuses the commit,
+        retry once on a fresh session bound to the same engine.
+        """
+        snapshot = {
+            "id": article.id,
+            "account_id": article.account_id,
+            "title": article.title,
+            "markdown": article.markdown or "",
+        }
+        job_snapshot = {"id": job.id if job is not None else None, "channel": job.channel if job is not None else None}
+        if mark_article_failed:
+            article.status = ArticleStatus.failed
+        if meta_patch:
+            article.meta = {**(article.meta or {}), **meta_patch}
+        if job is not None:
+            job.status = JobStatus.failed
+            job.error_message = str(exc)
+            job.error_category = error_category
+            job.finished_at = _utcnow_naive()
+            if isinstance(exc, WeChatError):
+                job.response_json = exc.payload
+        try:
+            self.session.commit()
+            return
+        except Exception:
+            self.session.rollback()
+        self._persist_failure_fresh_session(
+            snapshot,
+            job_snapshot,
+            exc,
+            error_category=error_category,
+            mark_article_failed=mark_article_failed,
+            meta_patch=meta_patch,
+            request_key=(meta_patch or {}).get("draft_request_key"),
+        )
+
+    def _persist_failure_fresh_session(
+        self,
+        snapshot: dict[str, Any],
+        job_snapshot: dict[str, Any],
+        exc: Exception,
+        *,
+        error_category: str,
+        mark_article_failed: bool,
+        meta_patch: dict[str, Any] | None,
+        request_key: str | None = None,
+    ) -> None:
+        try:
+            with Session(self.session.get_bind(), future=True) as retry_session:
+                retry_article = retry_session.get(Article, snapshot["id"]) if snapshot["id"] is not None else None
+                if retry_article is None:
+                    retry_article = Article(
+                        account_id=snapshot["account_id"],
+                        title=snapshot["title"],
+                        markdown=snapshot["markdown"],
+                        meta={"recovered_failure_record": True},
+                    )
+                    retry_session.add(retry_article)
+                    retry_session.flush()
+                if mark_article_failed:
+                    retry_article.status = ArticleStatus.failed
+                if meta_patch:
+                    retry_article.meta = {**(retry_article.meta or {}), **meta_patch}
+                retry_job = retry_session.get(PublishJob, job_snapshot["id"]) if job_snapshot["id"] is not None else None
+                if retry_job is None and job_snapshot["channel"] is not None:
+                    retry_job = PublishJob(
+                        article_id=retry_article.id,
+                        account_id=snapshot["account_id"],
+                        channel=job_snapshot["channel"],
+                        status=JobStatus.failed,
+                    )
+                    retry_session.add(retry_job)
+                    retry_session.flush()
+                if retry_job is not None:
+                    retry_job.status = JobStatus.failed
+                    retry_job.error_message = str(exc)
+                    retry_job.error_category = error_category
+                    retry_job.finished_at = _utcnow_naive()
+                    if request_key:
+                        # The dedup guard and unknown-outcome guard query this column;
+                        # a recovered job without it would let a blind retry through.
+                        retry_job.request_key = request_key
+                    if isinstance(exc, WeChatError):
+                        retry_job.response_json = exc.payload
+                retry_session.commit()
+        except Exception:
+            _LOGGER.warning(
+                "could not persist failure record for article %s (%s)",
+                snapshot.get("id"),
+                error_category,
+                exc_info=True,
+            )
+
+    def _persist_unknown_after_commit_failure(
+        self,
+        article_snapshot: dict[str, Any],
+        job_snapshot: dict[str, Any],
+        request_key: str,
+        commit_exc: Exception,
+    ) -> None:
+        """The remote draft call succeeded but the success state could not commit.
+
+        Record the outcome as unknown (fresh session) so the operator reconciles
+        with the draft box instead of blindly re-submitting and duplicating it.
+        """
+        message = f"draft likely created remotely but local persistence failed: {commit_exc}"
+        self._persist_failure_fresh_session(
+            article_snapshot,
+            job_snapshot,
+            RuntimeError(message),
+            error_category=ERROR_CATEGORY_REMOTE_UNKNOWN,
+            mark_article_failed=True,
+            meta_patch={
+                "draft_outcome": "unknown",
+                "draft_request_key": request_key,
+                "draft_failure_stage": "submit",
+                "draft_reconcile_hint": _REMOTE_UNKNOWN_HINT,
+            },
+            request_key=request_key,
+        )
+
+    # --- end draft idempotency helpers -------------------------------------------
 
     @staticmethod
     def _resolve_markdown_dir(article: Article) -> Path | None:

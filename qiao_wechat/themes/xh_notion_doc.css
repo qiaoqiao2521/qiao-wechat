@@ -1,0 +1,271 @@
+#wemd {
+  background:transparent;
+  font-size:15px;
+}
+
+#wemd h1 {
+  font-size:25px;
+  font-weight:700;
+  color:#37352F;
+  text-align:left;
+  padding:0;
+  margin-top:28px;
+  margin-bottom:16px;
+  line-height:1.3;
+  letter-spacing:0.3px;
+}
+
+#wemd h2 {
+  display:flex;
+  margin:36px 0 12px;
+  line-height:1.3;
+}
+
+#wemd h3 {
+  font-size:17px;
+  font-weight:700;
+  color:#37352F;
+  padding:0;
+  margin-top:28px;
+  margin-bottom:10px;
+  line-height:1.3;
+}
+
+#wemd h4 {
+  font-size:16px;
+  font-weight:700;
+  color:#37352F;
+  padding:0;
+  margin-top:22px;
+  margin-bottom:8px;
+  line-height:1.3;
+}
+
+#wemd h5 {
+  font-size:15px;
+  font-weight:700;
+  color:#54514A;
+  padding:0;
+  margin-top:18px;
+  margin-bottom:6px;
+  line-height:1.3;
+}
+
+#wemd h6 {
+  font-size:15px;
+  font-weight:700;
+  color:#787569;
+  padding:0;
+  margin-top:16px;
+  margin-bottom:6px;
+  line-height:1.3;
+}
+
+#wemd h2 .content {
+  display:inline-block;
+  font-size:20px;
+  font-weight:700;
+  color:#37352F;
+  border-bottom:2px solid #37352F;
+  padding:0 2px 5px 0;
+  letter-spacing:0.3px;
+}
+
+#wemd p {
+  font-size:16px;
+  color:#37352F;
+  line-height:1.75;
+  margin-top:0;
+  margin-bottom:18px;
+  letter-spacing:0.4px;
+  text-align:left;
+}
+
+#wemd blockquote {
+  border-left:3px solid #37352F;
+  background:transparent;
+  padding:2px 0 2px 16px;
+  margin-top:20px;
+  margin-bottom:20px;
+  border-radius:0;
+  font-size:16px;
+  color:#37352F;
+  line-height:1.75;
+}
+
+#wemd blockquote p {
+  font-size:16px;
+  color:#37352F;
+  line-height:1.75;
+  margin-bottom:0;
+  letter-spacing:0.4px;
+  font-style:normal;
+  background:transparent;
+}
+
+#wemd strong {
+  font-weight:700;
+  color:#1D1B16;
+}
+
+#wemd em {
+  font-style:italic;
+  color:#54514A;
+}
+
+#wemd a {
+  color:#37352F;
+  text-decoration:underline;
+  text-decoration-color:rgba(55,53,47,0.4);
+}
+
+#wemd img {
+  max-width:100%;
+  border-radius:3px;
+  display:block;
+  box-shadow:none;
+  border:1px solid #E9E9E7;
+}
+
+#wemd figure {
+  background:#ffffff;
+  border-radius:3px;
+  padding:0;
+  margin-top:12px;
+  margin-bottom:12px;
+}
+
+#wemd hr {
+  margin-top:28px;
+  margin-bottom:28px;
+  height:1px;
+  background:#E9E9E7;
+  border:none;
+}
+
+#wemd code {
+  background:rgba(135,131,120,0.15);
+  padding:2px 5px;
+  border-radius:3px;
+  font-size:88%;
+  color:#EB5757;
+  font-family:'SFMono-Regular', Menlo, Consolas, 'Courier New', monospace;
+}
+
+#wemd pre {
+  background:#F7F6F3;
+  color:#37352F;
+  padding:18px;
+  border-radius:0;
+  overflow-x:auto;
+  margin-top:0;
+  margin-bottom:0;
+  font-size:13px;
+  line-height:1.6;
+  white-space: pre-wrap;
+  word-wrap:break-word;
+  word-break: break-all;
+}
+
+#wemd pre code {
+  background:none;
+  padding:0;
+  color:#37352F;
+  font-size:13px;
+  font-family:'SFMono-Regular', Menlo, Consolas, 'Courier New', monospace;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+#wemd table {
+  width:100%;
+  border-collapse:separate;
+  margin-top:16px;
+  margin-bottom:18px;
+  font-size:14px;
+  border-spacing:0;
+  border:1px solid #E9E9E7;
+  border-radius:4px;
+  overflow:hidden;
+}
+
+#wemd th {
+  background:#F7F6F3;
+  padding:8px 12px;
+  border-bottom:1px solid #E9E9E7;
+  text-align:left;
+  font-weight:600;
+  color:#54514A;
+}
+
+#wemd td {
+  padding:8px 12px;
+  border-bottom:1px solid #F1F1EF;
+  color:#37352F;
+}
+
+#wemd ul, #wemd ol {
+  margin-top:12px;
+  margin-bottom:12px;
+}
+
+#wemd li {
+  display:flex;
+  margin-bottom:6px;
+  align-items:flex-start;
+  font-size:16px;
+  color:#37352F;
+  line-height:1.75;
+  letter-spacing:0.4px;
+}
+
+#wemd section.citations {
+  margin-top:32px;
+  padding-top:14px;
+  border-top:1px solid #E9E9E7;
+}
+
+#wemd .citations h2 {
+  font-size:14px;
+  font-weight:600;
+  color:#787569;
+  margin-bottom:10px;
+}
+
+#wemd .citations li {
+  font-size:13px;
+  color:#787569;
+  margin-bottom:6px;
+  line-height:1.6;
+  word-break:break-all;
+}
+
+#wemd .citations a {
+  font-size:12px;
+  color:#2383E2;
+  vertical-align:super;
+  margin-left:2px;
+}
+
+#wemd section.callout {
+  background:#F7F6F3;
+  border:none;
+  padding:16px;
+  margin-top:16px;
+  margin-bottom:16px;
+  border-radius:4px;
+}
+
+#wemd .callout-title {
+  font-weight:600;
+  color:#37352F;
+  margin-bottom:6px;
+  font-size:15px;
+}
+
+#wemd .callout p:not(.callout-title) {
+  font-size:14px;
+  color:#54514A;
+  line-height:1.7;
+  letter-spacing:0.3px;
+}

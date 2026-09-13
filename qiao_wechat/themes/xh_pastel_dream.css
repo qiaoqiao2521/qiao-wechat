@@ -1,0 +1,250 @@
+#wemd {
+  font-family:'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  background:transparent;
+  font-size:15px;
+}
+
+#wemd h1 {
+  font-size:23px;
+  font-weight:700;
+  color:#FFFFFF;
+  text-align:center;
+  line-height:1.5;
+  margin-top:36px;
+  margin-bottom:26px;
+  padding:18px 24px;
+  background:linear-gradient(135deg, #A693C8 0%, #C4A9D9 100%);
+  border-radius:20px;
+  letter-spacing:2px;
+  box-shadow:0 6px 20px rgba(166,147,200,0.35);
+}
+
+#wemd h2 {
+  font-size:20px;
+  font-weight:700;
+  color:#A693C8;
+  line-height:1.5;
+  margin-top:30px;
+  margin-bottom:16px;
+  display:inline-block;
+  padding:8px 18px;
+  background:rgba(166,147,200,0.14);
+  border-radius:999px;
+}
+
+#wemd h3 {
+  font-size:17px;
+  font-weight:600;
+  color:#7B5B3E;
+  line-height:1.55;
+  margin-top:26px;
+  margin-bottom:12px;
+  padding-left:14px;
+  border-left:4px solid #F4A7B9;
+  border-radius:3px;
+}
+
+#wemd h4 {
+  font-size:16px;
+  font-weight:600;
+  font-style:italic;
+  color:#A693C8;
+  line-height:1.6;
+  margin-top:22px;
+  margin-bottom:10px;
+}
+
+#wemd h5 {
+  font-size:15px;
+  font-weight:600;
+  color:#7B5B3E;
+  margin-top:18px;
+  margin-bottom:8px;
+  line-height:1.6;
+}
+
+#wemd h6 {
+  font-size:13px;
+  font-weight:600;
+  color:#A89099;
+  margin-top:16px;
+  margin-bottom:6px;
+  line-height:1.6;
+  letter-spacing:1.5px;
+}
+
+#wemd p {
+  font-size:16px;
+  color:#5C4A52;
+  line-height:1.88;
+  margin-top:0;
+  margin-bottom:16px;
+  letter-spacing:0.3px;
+}
+
+#wemd blockquote {
+  background:rgba(166,147,200,0.10);
+  padding:16px 22px;
+  border-radius:14px;
+  margin-top:22px;
+  margin-bottom:22px;
+  font-size:15px;
+  color:#7B5B3E;
+  line-height:1.8;
+  border-left:none;
+}
+
+#wemd blockquote p {
+  font-size:15px;
+  color:#7B5B3E;
+  line-height:1.8;
+  margin-bottom:0;
+  letter-spacing:0.3px;
+  background:transparent;
+}
+
+#wemd strong {
+  font-weight:700;
+  color:#A693C8;
+}
+
+#wemd em {
+  font-style:italic;
+  color:#7B5B3E;
+}
+
+#wemd a {
+  color:#A693C8;
+  text-decoration:none;
+  background:linear-gradient(180deg, rgba(166,147,200,0) 70%, rgba(244,167,185,0.4) 70%);
+  padding:0 2px;
+}
+
+#wemd img {
+  max-width:100%;
+  border-radius:16px;
+  display:block;
+  box-shadow:0 8px 24px rgba(166,147,200,0.18);
+  margin-top:18px;
+  margin-bottom:8px;
+}
+
+#wemd figure {
+  background:transparent;
+  padding:0;
+  margin-top:18px;
+  margin-bottom:18px;
+}
+
+#wemd hr {
+  margin-top:32px;
+  margin-bottom:32px;
+  height:3px;
+  border:none;
+  background:linear-gradient(90deg, transparent, #F4A7B9, #A693C8, #F4A7B9, transparent);
+  border-radius:2px;
+}
+
+#wemd code {
+  background:#FFE8EA;
+  padding:2px 8px;
+  border-radius:8px;
+  font-size:92%;
+  color:#E06080;
+  font-family:'SF Mono','JetBrains Mono',Menlo,Consolas,monospace;
+}
+
+#wemd pre {
+  background:#FFF8F5;
+  color:#5C4A52;
+  padding:16px 18px;
+  border-radius:0;
+  overflow-x:auto;
+  margin-top:0;
+  margin-bottom:0;
+  font-size:13px;
+  line-height:1.7;
+  white-space: pre-wrap;
+  word-wrap:break-word;
+  word-break: break-all;
+}
+
+#wemd pre code {
+  background:none;
+  padding:0;
+  color:#5C4A52;
+  font-size:13px;
+  font-family:'SF Mono','JetBrains Mono',Menlo,Consolas,monospace;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+#wemd table {
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0;
+  margin-top:18px;
+  margin-bottom:18px;
+  font-size:14px;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 4px 14px rgba(166,147,200,0.10);
+}
+
+#wemd th {
+  padding:12px 14px;
+  text-align:left;
+  font-weight:600;
+  color:#FFFFFF;
+  background:#A693C8;
+}
+
+#wemd td {
+  padding:10px 14px;
+  border-bottom:1px solid #F5E8EC;
+  color:#5C4A52;
+  background:#FFFFFF;
+}
+
+#wemd ul, #wemd ol {
+  margin-top:14px;
+  margin-bottom:14px;
+}
+
+#wemd li {
+  display:flex;
+  margin-bottom:8px;
+  align-items:flex-start;
+  font-size:16px;
+  color:#5C4A52;
+  line-height:1.88;
+  letter-spacing:0.3px;
+}
+
+#wemd section.citations {
+  margin-top:36px;
+  padding-top:18px;
+  border-top:1px dashed #F5D8DC;
+}
+
+#wemd .citations h2 {
+  font-size:14px;
+  font-weight:bold;
+  color:#A693C8;
+  margin-bottom:12px;
+}
+
+#wemd .citations li {
+  font-size:13px;
+  color:#A89099;
+  margin-bottom:6px;
+  line-height:1.6;
+  word-break:break-all;
+}
+
+#wemd .citations a {
+  font-size:12px;
+  color:#A693C8;
+  vertical-align:super;
+  margin-left:2px;
+}

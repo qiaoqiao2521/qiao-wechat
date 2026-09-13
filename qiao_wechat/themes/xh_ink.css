@@ -1,0 +1,265 @@
+#wemd {
+  background:transparent;
+  font-size:15px;
+}
+
+#wemd h1 {
+  font-size:26px;
+  font-weight:700;
+  color:#000000;
+  line-height:1.3;
+  letter-spacing:-0.02em;
+  padding:0 0 10px;
+  border-bottom:2px solid #000000;
+  margin-top:36px;
+  margin-bottom:18px;
+}
+
+#wemd h2 {
+  font-size:22px;
+  font-weight:700;
+  color:#111111;
+  line-height:1.45;
+  padding-left:12px;
+  border-left:3px solid #000000;
+  margin-top:34px;
+  margin-bottom:18px;
+}
+
+#wemd h3 {
+  font-size:20px;
+  font-weight:600;
+  color:#222222;
+  line-height:1.45;
+  padding-bottom:6px;
+  margin-top:28px;
+  margin-bottom:14px;
+}
+
+#wemd h4 {
+  font-size:19px;
+  font-weight:bold;
+  color:#222222;
+  border-left:2px solid #000000;
+  padding:0 0 0 8px;
+  margin-top:24px;
+  margin-bottom:8px;
+  line-height:1.3;
+}
+
+#wemd h5 {
+  font-size:18px;
+  font-weight:bold;
+  color:#555555;
+  padding:0;
+  margin-top:20px;
+  margin-bottom:6px;
+  line-height:1.3;
+}
+
+#wemd h6 {
+  font-size:15px;
+  font-weight:bold;
+  color:#888888;
+  padding:0;
+  margin-top:16px;
+  margin-bottom:6px;
+  line-height:1.3;
+}
+
+#wemd p {
+  font-size:16px;
+  color:#111111;
+  line-height:1.8;
+  margin-top:0;
+  margin-bottom:20px;
+  letter-spacing:0.5px;
+  text-align:justify;
+}
+
+#wemd blockquote {
+  border-left:3px solid #000000;
+  background:#fafafa;
+  padding:16px 18px;
+  margin-top:24px;
+  margin-bottom:24px;
+  border-radius:0;
+  font-size:16px;
+  color:#333333;
+  line-height:1.8;
+}
+
+#wemd blockquote p {
+  font-size:16px;
+  color:#111111;
+  line-height:1.8;
+  margin-bottom:0;
+  background:transparent;
+}
+
+#wemd strong {
+  font-weight:700;
+  color:#000000;
+}
+
+#wemd em {
+  font-style:italic;
+  color:#555555;
+}
+
+#wemd a {
+  color:#000000;
+  text-decoration:underline;
+}
+
+#wemd img {
+  max-width:100%;
+  border-radius:2px;
+  display:block;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+#wemd figure {
+  background:#ffffff;
+  border-radius:2px;
+  padding:4px;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+
+#wemd hr {
+  margin-top:38px;
+  margin-bottom:38px;
+  height:1px;
+  background:linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.88) 28%, rgba(0,0,0,0.88) 72%, rgba(0,0,0,0) 100%);
+  border:none;
+  width:34%;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+#wemd code {
+  background:#f0f0f0;
+  padding:3px 6px;
+  border-radius:2px;
+  font-size:13px;
+  color:#000000;
+  font-family:'SF Mono', Consolas, monospace;
+}
+
+#wemd pre {
+  background:#f5f5f5;
+  color:#000000;
+  padding:20px;
+  border-radius:0;
+  overflow-x:auto;
+  margin-top:0;
+  margin-bottom:0;
+  font-size:13px;
+  line-height:1.5;
+  white-space: pre-wrap;
+  word-wrap:break-word;
+  word-break: break-all;
+}
+
+#wemd pre code {
+  background:none;
+  padding:0;
+  color:#000000;
+  font-size:13px;
+  font-family:'SF Mono', Consolas, monospace;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+#wemd table {
+  width:100%;
+  border-collapse:separate;
+  margin-top:24px;
+  margin-bottom:24px;
+  font-size:15px;
+  border-spacing:0;
+  border-radius:0;
+  overflow:hidden;
+}
+
+#wemd th {
+  background:#f5f5f5;
+  padding:12px 16px;
+  border:1px solid #cccccc;
+  text-align:left;
+  font-weight:700;
+  color:#000000;
+}
+
+#wemd td {
+  padding:12px 16px;
+  border:1px solid #cccccc;
+  color:#111111;
+}
+
+#wemd ul, #wemd ol {
+  margin-top:16px;
+  margin-bottom:16px;
+}
+
+#wemd li {
+  display:flex;
+  margin-bottom:8px;
+  align-items:flex-start;
+  font-size:16px;
+  color:#111111;
+  line-height:1.8;
+  letter-spacing:0.5px;
+}
+
+#wemd section.citations {
+  margin-top:32px;
+  padding-top:16px;
+  border-top:1px solid #cccccc;
+}
+
+#wemd .citations h2 {
+  font-size:14px;
+  font-weight:bold;
+  color:#999999;
+  margin-bottom:12px;
+}
+
+#wemd .citations li {
+  font-size:13px;
+  color:#999999;
+  margin-bottom:6px;
+  line-height:1.6;
+  word-break:break-all;
+}
+
+#wemd .citations a {
+  font-size:12px;
+  color:#000000;
+  vertical-align:super;
+  margin-left:2px;
+}
+
+#wemd section.callout {
+  background:#fafafa;
+  border-left:3px solid #000000;
+  padding:16px;
+  margin-top:16px;
+  margin-bottom:16px;
+  border-radius:0;
+}
+
+#wemd .callout-title {
+  font-weight:700;
+  color:#000000;
+  margin-bottom:8px;
+  font-size:15px;
+}
+
+#wemd .callout p:not(.callout-title) {
+  font-size:14px;
+  color:#111111;
+  line-height:1.8;
+  letter-spacing:0.3px;
+}

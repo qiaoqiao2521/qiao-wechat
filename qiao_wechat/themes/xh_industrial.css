@@ -1,0 +1,227 @@
+#wemd {
+  font-family:'Inter','Helvetica Neue','Arial','PingFang SC',sans-serif;
+  background:transparent;
+  font-size:15px;
+}
+
+#wemd h1 {
+  font-size:32px;
+  font-weight:900;
+  color:#1F1F1F;
+  line-height:1.15;
+  margin-top:36px;
+  margin-bottom:24px;
+  padding:16px 20px;
+  background:#FF6B00;
+  letter-spacing:-0.01em;
+  text-transform:uppercase;
+  border-left:8px solid #FFD700;
+  border-right:8px solid #FFD700;
+}
+
+#wemd h2 {
+  font-size:20px;
+  font-weight:900;
+  color:#FF6B00;
+  line-height:1.3;
+  margin-top:32px;
+  margin-bottom:16px;
+  padding:6px 0 6px 18px;
+  border-left:6px solid #FF6B00;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  background:linear-gradient(135deg,#FFD700 0 12px,transparent 12px);
+}
+
+#wemd h3 {
+  font-size:17px;
+  font-weight:800;
+  color:#FFD700;
+  line-height:1.4;
+  margin-top:26px;
+  margin-bottom:12px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+#wemd h4 {
+  font-size:14px;
+  font-weight:700;
+  color:#1F1F1F;
+  background:#FFD700;
+  padding:3px 10px;
+  display:inline-block;
+  line-height:1.4;
+  margin-top:22px;
+  margin-bottom:10px;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+}
+
+#wemd h5 {
+  font-size:14px;
+  font-weight:700;
+  color:#E8E8E8;
+  margin-top:18px;
+  margin-bottom:8px;
+  line-height:1.4;
+}
+
+#wemd h6 {
+  font-size:12px;
+  font-weight:700;
+  color:#999999;
+  margin-top:16px;
+  margin-bottom:6px;
+  line-height:1.4;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+#wemd p {
+  font-size:16px;
+  color:#E8E8E8;
+  line-height:1.75;
+  margin-top:0;
+  margin-bottom:16px;
+  letter-spacing:0.3px;
+}
+
+#wemd blockquote {
+  background:rgba(255,107,0,0.10);
+  border:2px solid #FF6B00;
+  padding:14px 18px;
+  border-radius:0;
+  margin-top:22px;
+  margin-bottom:22px;
+  font-size:14px;
+  color:#FF6B00;
+  line-height:1.7;
+  font-weight:600;
+}
+
+#wemd blockquote p {
+  font-size:14px;
+  color:#FF6B00;
+  line-height:1.7;
+  margin-bottom:0;
+  background:transparent;
+  font-weight:600;
+}
+
+#wemd strong {
+  font-weight:900;
+  color:#FFD700;
+  background:#1F1F1F;
+  padding:0 3px;
+}
+
+#wemd em {
+  font-style:italic;
+  color:#FF6B00;
+}
+
+#wemd a {
+  color:#FFD700;
+  text-decoration:underline;
+  text-decoration-thickness:2px;
+  text-underline-offset:3px;
+}
+
+#wemd img {
+  max-width:100%;
+  display:block;
+  margin-top:18px;
+  margin-bottom:8px;
+  border:4px solid #FF6B00;
+}
+
+#wemd figure {
+  background:transparent;
+  padding:0;
+  margin-top:18px;
+  margin-bottom:18px;
+}
+
+#wemd hr {
+  margin-top:30px;
+  margin-bottom:30px;
+  height:10px;
+  border:none;
+  background:repeating-linear-gradient(-45deg,#FFD700 0 12px,#1F1F1F 12px 24px);
+}
+
+#wemd code {
+  background:rgba(255,107,0,0.15);
+  padding:1px 6px;
+  border-radius:0;
+  font-size:92%;
+  color:#FFD700;
+  font-family:'JetBrains Mono','SF Mono',Menlo,monospace;
+  border:1px solid #FF6B00;
+  font-weight:600;
+}
+
+#wemd pre {
+  background:#141414;
+  color:#E8E8E8;
+  padding:14px 16px;
+  overflow-x:auto;
+  margin-top:0;
+  margin-bottom:0;
+  font-size:13px;
+  line-height:1.65;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+#wemd pre code {
+  background:none;
+  padding:0;
+  color:#E8E8E8;
+  font-size:13px;
+  font-family:'JetBrains Mono','SF Mono',Menlo,monospace;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+#wemd table {
+  width:100%;
+  border-collapse:collapse;
+  margin-top:20px;
+  margin-bottom:20px;
+  font-size:13px;
+  border:2px solid #FF6B00;
+}
+
+#wemd th {
+  padding:10px 12px;
+  text-align:left;
+  font-weight:900;
+  color:#1F1F1F;
+  background:#FF6B00;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  font-size:11px;
+}
+
+#wemd td {
+  padding:8px 12px;
+  border:1px solid rgba(255,107,0,0.3);
+  color:#E8E8E8;
+}
+
+#wemd ul, #wemd ol {
+  margin-top:12px;
+  margin-bottom:12px;
+}
+
+#wemd li {
+  display:flex;
+  margin-bottom:6px;
+  align-items:flex-start;
+  font-size:16px;
+  color:#E8E8E8;
+  line-height:1.75;
+  letter-spacing:0.3px;
+}

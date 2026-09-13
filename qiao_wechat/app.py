@@ -13,6 +13,7 @@ from .schemas import (
     AccountOut,
     ArticleCreate,
     ArticleOut,
+    BatchDraftRequest,
     DraftRequest,
     HtmlDraftCreate,
     HtmlDraftFileCreate,
@@ -261,6 +262,46 @@ def html_draft_tool() -> HTMLResponse:
       background: var(--danger-soft);
       border-color: #fecaca;
     }
+    .status.warn {
+      color: #92400e;
+      background: #fef3c7;
+      border-color: #fde68a;
+    }
+    .next-steps {
+      margin: 10px 0 0;
+      padding-left: 18px;
+      line-height: 1.6;
+    }
+    .badge {
+      display: inline-block;
+      padding: 1px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .badge.reused { background: var(--primary-soft); color: var(--primary); }
+    .badge.created { background: var(--success-soft); color: var(--success); }
+    .jobs { display: grid; gap: 8px; }
+    .job {
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel-alt);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .job .job-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-weight: 600;
+    }
+    .job .job-err {
+      margin-top: 4px;
+      color: var(--danger);
+      overflow-wrap: anywhere;
+    }
+    .job .job-cat { color: var(--muted); font-weight: 400; }
     .kv {
       display: grid;
       gap: 10px;
@@ -355,6 +396,10 @@ def html_draft_tool() -> HTMLResponse:
               <input id="force_reupload_cover" type="checkbox">
               <span>强制重新上传封面</span>
             </label>
+            <label class="check">
+              <input id="force_new" type="checkbox">
+              <span>强制新建草稿（仅在核对过公众号草稿箱、确认上次结果后勾选）</span>
+            </label>
           </div>
 
           <div class="actions">
@@ -369,12 +414,27 @@ def html_draft_tool() -> HTMLResponse:
         <p class="hint">这页不是新的工作流中心，只是给 HTML-first 草稿入口一个可操作前台。适合把外部视觉项目产出的最终 HTML 快速送入草稿箱。</p>
         <div id="status" class="status">等待提交。</div>
         <div id="result" class="kv hidden">
+          <div><span>结果</span><span id="result-outcome">-</span></div>
           <div><span>Article ID</span><span id="result-article-id">-</span></div>
           <div><span>Status</span><span id="result-status">-</span></div>
           <div><span>Draft Media ID</span><span id="result-draft-id">-</span></div>
           <div><span>Theme</span><span id="result-theme">-</span></div>
           <div><span>Preview</span><span id="result-preview">-</span></div>
         </div>
+        <p class="hint" id="aftercare" style="display:none">
+          草稿成功后请到公众号后台「草稿箱」人工核对正文与封面。此页展示的是本地预览；
+          手机预览与正式发布是独立能力，默认关闭（需账号权限并显式开启开关）。
+        </p>
+
+        <p class="section-title" style="margin-top:8px">任务记录</p>
+        <div class="field-wide">
+          <label for="jobs-article-id">按 Article ID 查询步骤与错误</label>
+          <div style="display:flex;gap:8px">
+            <input id="jobs-article-id" type="number" min="1" placeholder="Article ID">
+            <button id="jobs-load" class="secondary" type="button" style="white-space:nowrap">查询</button>
+          </div>
+        </div>
+        <div id="jobs" class="jobs"><p class="hint">提交或失败后可在此查看每个步骤的实际状态与错误类别。</p></div>
       </aside>
     </div>
   </main>
@@ -386,14 +446,92 @@ def html_draft_tool() -> HTMLResponse:
     const resultBox = document.getElementById('result')
     const submitButton = document.getElementById('submit')
     const reloadButton = document.getElementById('reload')
+    const jobsBox = document.getElementById('jobs')
 
     function setStatus(message, tone) {
       statusBox.textContent = message
       statusBox.className = 'status' + (tone ? ' ' + tone : '')
     }
 
+    function setStatusHtml(html, tone) {
+      statusBox.innerHTML = html
+      statusBox.className = 'status' + (tone ? ' ' + tone : '')
+    }
+
+    // 把后端错误翻译成「失败步骤 / 是否可能已提交 / 下一步」。
+    // 判定依赖后端契约文本（error_category 与 unknown-outcome 指引），不靠猜测。
+    function classifyFailure(detail) {
+      const text = String(detail || '')
+      if (text.includes('unknown remote outcome')) {
+        return {
+          headline: '结果未知：请求已发出，但未收到微信确认',
+          submitted: '可能已提交（远端超时/连接中断后无法确定）',
+          steps: [
+            '打开公众号后台「草稿箱」，核对是否已出现同标题草稿',
+            '确认未创建后，勾选「强制新建草稿」重新提交',
+            '可用下方任务记录（或 GET /articles/{id}/jobs）查看 error_category=remote_result_unknown 的记录'
+          ]
+        }
+      }
+      if (text.includes('WeChat API error')) {
+        return {
+          headline: '微信接口明确拒绝',
+          submitted: '未创建草稿（远端明确报错）',
+          steps: ['按错误里的 errcode 修正素材或内容后直接重试']
+        }
+      }
+      if (text.includes('cover_source') || text.includes('media_id is required')) {
+        return {
+          headline: '封面缺失',
+          submitted: '未提交到微信',
+          steps: ['为本次提交填写封面路径/URL，或给账号配置 default_cover_media_id']
+        }
+      }
+      if (text.includes('must be under') || text.includes('content is required') || text.includes('publish blocked')) {
+        return {
+          headline: '内容校验未通过',
+          submitted: '未提交到微信',
+          steps: ['按提示修改内容或标题长度后重试']
+        }
+      }
+      if (text.includes('not found') || text.includes('No such file') || text.includes('image not found')) {
+        return {
+          headline: '素材文件不存在或不可读',
+          submitted: '未提交到微信',
+          steps: ['核对图片与封面路径；相对路径按「资源基目录」解析']
+        }
+      }
+      return {
+        headline: '提交失败',
+        submitted: '尚未确认是否到达微信，可查看任务记录判断',
+        steps: ['查看下方任务记录中最后一个 wx_draft 步骤的错误与类别', '修正后重试']
+      }
+    }
+
+    function renderFailure(detail) {
+      const text = String(detail || '')
+      const info = classifyFailure(text)
+      const html = '<strong>' + info.headline + '</strong><br>' +
+        '是否可能已提交：' + info.submitted +
+        '<ul class="next-steps">' + info.steps.map(s => '<li>' + s + '</li>').join('') + '</ul>'
+      setStatusHtml(html, 'error')
+      // 后端在失败详情里附带了本次尝试的 article_id；自动填充并展示任务记录
+      const match = text.match(/article_id=(\d+)/)
+      if (match) {
+        document.getElementById('jobs-article-id').value = match[1]
+        loadJobs(Number(match[1]))
+      }
+    }
+
     function setResult(article) {
       resultBox.classList.remove('hidden')
+      const outcome = (article.meta && article.meta.draft_outcome) || 'created'
+      const outcomeCell = document.getElementById('result-outcome')
+      if (outcome === 'reused') {
+        outcomeCell.innerHTML = '<span class="badge reused">复用已有草稿（未重复提交）</span>'
+      } else {
+        outcomeCell.innerHTML = '<span class="badge created">新建草稿</span>'
+      }
       document.getElementById('result-article-id').textContent = article.id ?? '-'
       document.getElementById('result-status').textContent = article.status ?? '-'
       document.getElementById('result-draft-id').textContent = article.wx_draft_media_id ?? '-'
@@ -407,10 +545,39 @@ def html_draft_tool() -> HTMLResponse:
         link.href = previewUrl
         link.target = '_blank'
         link.rel = 'noreferrer noopener'
-        link.textContent = 'Open preview'
+        link.textContent = '打开本地预览'
         previewCell.appendChild(link)
       } else {
         previewCell.textContent = '-'
+      }
+      document.getElementById('aftercare').style.display = ''
+      loadJobs(article.id)
+    }
+
+    async function loadJobs(articleId) {
+      const id = articleId ?? Number(document.getElementById('jobs-article-id').value)
+      if (!id) {
+        setStatus('请输入要查询的 Article ID', 'warn')
+        return
+      }
+      try {
+        const response = await fetch('/articles/' + id + '/jobs')
+        const jobs = await response.json()
+        if (!response.ok) {
+          throw new Error(jobs.detail || response.statusText)
+        }
+        if (!jobs.length) {
+          jobsBox.innerHTML = '<p class="hint">该文章暂无任务记录。</p>'
+          return
+        }
+        jobsBox.innerHTML = jobs.map(job => {
+          const cat = job.error_category ? ' <span class="job-cat">[' + job.error_category + ']</span>' : ''
+          const err = job.error_message ? '<div class="job-err">' + job.error_message + '</div>' : ''
+          return '<div class="job"><div class="job-head"><span>#' + job.id + ' ' + job.channel + '</span><span>' +
+            job.status + cat + '</span></div>' + err + '</div>'
+        }).join('')
+      } catch (error) {
+        jobsBox.innerHTML = '<p class="hint">任务查询失败：' + (error.message || error) + '</p>'
       }
     }
 
@@ -471,7 +638,8 @@ def html_draft_tool() -> HTMLResponse:
           options: {
             upload_inline_images: document.getElementById('upload_inline_images').checked,
             create_local_preview: document.getElementById('create_local_preview').checked,
-            force_reupload_cover: document.getElementById('force_reupload_cover').checked
+            force_reupload_cover: document.getElementById('force_reupload_cover').checked,
+            force_new: document.getElementById('force_new').checked
           }
         }
 
@@ -485,7 +653,7 @@ def html_draft_tool() -> HTMLResponse:
           throw new Error('HTML 不能为空')
         }
 
-        setStatus('正在创建微信草稿…')
+        setStatus('正在创建微信草稿…（后端按顺序执行：素材准备 → 图片上传 → 草稿提交）')
 
         const response = await fetch('/wechat/drafts/from-html', {
           method: 'POST',
@@ -494,18 +662,22 @@ def html_draft_tool() -> HTMLResponse:
         })
         const result = await response.json()
         if (!response.ok) {
-          throw new Error(result.detail || response.statusText)
+          renderFailure(result.detail || response.statusText)
+          throw new Error('handled')
         }
         setResult(result)
-        setStatus('草稿创建成功。', 'success')
+        setStatus('草稿已进入公众号草稿箱流程，请按下方结果与提示核对。', 'success')
       } catch (error) {
-        setStatus(String(error.message || error), 'error')
+        if (error && error.message !== 'handled') {
+          setStatus(String(error.message || error), 'error')
+        }
       } finally {
         submitButton.disabled = false
         reloadButton.disabled = false
       }
     })
 
+    document.getElementById('jobs-load').addEventListener('click', () => loadJobs())
     reloadButton.addEventListener('click', loadAccounts)
     loadAccounts()
   </script>
@@ -560,6 +732,21 @@ def list_article_jobs(article_id: int, db: Session = Depends(get_db)) -> list[Pu
     return db.query(PublishJob).filter(PublishJob.article_id == article_id).order_by(PublishJob.id.desc()).all()
 
 
+def _failure_detail_with_article_hint(exc: Exception, account_id: int | None, db: Session) -> str:
+    """把本次尝试的 article_id 附到错误详情里，操作者无需翻日志即可查任务记录。"""
+    detail = str(exc)
+    try:
+        query = db.query(Article)
+        if account_id is not None:
+            query = query.filter(Article.account_id == account_id)
+        latest = query.order_by(Article.id.desc()).first()
+        if latest is not None:
+            detail += f"（本次尝试已留痕：article_id={latest.id}，可在任务记录中查询步骤）"
+    except Exception:  # noqa: BLE001 - 提示失败不掩盖原始错误
+        pass
+    return detail
+
+
 @app.post("/wechat/drafts/from-html", response_model=ArticleOut)
 def create_draft_from_html(payload: HtmlDraftCreate, db: Session = Depends(get_db)) -> Article:
     try:
@@ -576,9 +763,13 @@ def create_draft_from_html(payload: HtmlDraftCreate, db: Session = Depends(get_d
             upload_inline_images=payload.options.upload_inline_images,
             force_reupload_cover=payload.options.force_reupload_cover,
             create_local_preview=payload.options.create_local_preview,
+            force_new=payload.options.force_new,
         )
     except Exception as exc:
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        raise HTTPException(
+            status_code=400,
+            detail=_failure_detail_with_article_hint(exc, payload.account_id, db),
+        ) from exc
 
 
 @app.post("/wechat/drafts/from-html-file", response_model=ArticleOut)
@@ -597,9 +788,25 @@ def create_draft_from_html_file(payload: HtmlDraftFileCreate, db: Session = Depe
             upload_inline_images=payload.options.upload_inline_images,
             force_reupload_cover=payload.options.force_reupload_cover,
             create_local_preview=payload.options.create_local_preview,
+            force_new=payload.options.force_new,
         )
     except Exception as exc:
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        raise HTTPException(
+            status_code=400,
+            detail=_failure_detail_with_article_hint(exc, payload.account_id, db),
+        ) from exc
+
+
+@app.post("/wechat/drafts/batch")
+def create_drafts_batch(payload: BatchDraftRequest, db: Session = Depends(get_db)) -> dict:
+    """批量创建草稿（draft-only）。单篇失败不中断其余；结果逐篇真实反馈。"""
+    summary = PublishService(db).create_wechat_drafts_batch(
+        payload.article_ids,
+        upload_inline_images=payload.upload_inline_images,
+        force_reupload_cover=payload.force_reupload_cover,
+        force_new=payload.force_new,
+    )
+    return summary
 
 
 @app.get("/jobs", response_model=list[JobOut])
@@ -731,6 +938,7 @@ def create_draft(article_id: int, payload: DraftRequest, db: Session = Depends(g
             article_id,
             upload_inline_images=payload.upload_inline_images,
             force_reupload_cover=payload.force_reupload_cover,
+            force_new=payload.force_new,
         )
     except Exception as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc

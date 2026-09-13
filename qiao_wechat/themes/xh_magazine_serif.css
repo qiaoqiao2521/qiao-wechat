@@ -1,0 +1,252 @@
+#wemd {
+  font-family:'Source Serif Pro',Georgia,'Songti SC','PingFang SC',serif;
+  background:transparent;
+  font-size:15px;
+}
+
+#wemd h1 {
+  font-size:28px;
+  font-weight:700;
+  color:#111111;
+  text-align:center;
+  line-height:1.3;
+  margin-top:36px;
+  margin-bottom:26px;
+  letter-spacing:-0.01em;
+  padding-bottom:14px;
+  border-bottom:3px solid #111111;
+  font-family:'Source Serif Pro',Georgia,'Songti SC',serif;
+}
+
+#wemd h2 {
+  font-size:22px;
+  font-weight:700;
+  color:#111111;
+  line-height:1.35;
+  margin-top:32px;
+  margin-bottom:16px;
+  padding-bottom:6px;
+  border-bottom:1px solid #111111;
+  letter-spacing:1px;
+}
+
+#wemd h3 {
+  font-size:22px;
+  font-weight:600;
+  font-style:italic;
+  color:#111111;
+  line-height:1.4;
+  margin-top:26px;
+  margin-bottom:14px;
+  font-family:'Source Serif Pro',Georgia,'Songti SC',serif;
+}
+
+#wemd h4 {
+  font-size:13px;
+  font-weight:700;
+  color:#D11A2A;
+  line-height:1.5;
+  margin-top:22px;
+  margin-bottom:10px;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+}
+
+#wemd h5 {
+  font-size:15px;
+  font-weight:600;
+  color:#333333;
+  margin-top:18px;
+  margin-bottom:8px;
+  line-height:1.5;
+}
+
+#wemd h6 {
+  font-size:13px;
+  font-weight:600;
+  color:#666666;
+  margin-top:16px;
+  margin-bottom:6px;
+  line-height:1.5;
+  letter-spacing:1px;
+}
+
+#wemd p {
+  font-size:17px;
+  color:#111111;
+  line-height:1.9;
+  margin-top:0;
+  margin-bottom:18px;
+  letter-spacing:0.2px;
+  text-align:justify;
+  text-indent:2em;
+}
+
+#wemd blockquote {
+  padding:18px 20px;
+  margin:26px 30px;
+  font-size:19px;
+  color:#333333;
+  line-height:1.75;
+  text-align:center;
+  font-style:italic;
+  border-top:2px solid #111111;
+  border-bottom:2px solid #111111;
+  background:transparent;
+  font-family:'Source Serif Pro',Georgia,'Songti SC',serif;
+}
+
+#wemd blockquote p {
+  font-size:19px;
+  color:#333333;
+  line-height:1.75;
+  margin-bottom:0;
+  letter-spacing:0.3px;
+  background:transparent;
+  font-style:italic;
+}
+
+#wemd strong {
+  font-weight:700;
+  color:#D11A2A;
+}
+
+#wemd em {
+  font-style:italic;
+  color:#555555;
+}
+
+#wemd a {
+  color:#D11A2A;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+#wemd img {
+  max-width:100%;
+  border-radius:0;
+  display:block;
+  margin-top:18px;
+  margin-bottom:10px;
+}
+
+#wemd figure {
+  background:transparent;
+  padding:0;
+  margin-top:18px;
+  margin-bottom:18px;
+}
+
+#wemd hr {
+  margin-top:32px;
+  margin-bottom:32px;
+  height:3px;
+  width:60px;
+  background:#111111;
+  border:none;
+}
+
+#wemd code {
+  background:#F2F2F0;
+  padding:1px 5px;
+  border-radius:2px;
+  font-size:90%;
+  color:#111111;
+  font-family:'SF Mono',Menlo,Consolas,monospace;
+}
+
+#wemd pre {
+  background:#F9F9F5;
+  color:#111111;
+  padding:14px 16px;
+  border-radius:0;
+  overflow-x:auto;
+  margin-top:0;
+  margin-bottom:0;
+  font-size:13px;
+  line-height:1.7;
+  white-space: pre-wrap;
+  word-wrap:break-word;
+  word-break: break-all;
+}
+
+#wemd pre code {
+  background:none;
+  padding:0;
+  color:#111111;
+  font-size:13px;
+  font-family:'SF Mono',Menlo,Consolas,monospace;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+#wemd table {
+  width:100%;
+  border-collapse:collapse;
+  margin-top:20px;
+  margin-bottom:20px;
+  font-size:14px;
+}
+
+#wemd th {
+  padding:10px 12px;
+  text-align:left;
+  font-weight:700;
+  color:#111111;
+  background:transparent;
+  border-bottom:2px solid #111111;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  font-size:12px;
+}
+
+#wemd td {
+  padding:10px 12px;
+  border-bottom:1px solid #E0E0DC;
+  color:#111111;
+}
+
+#wemd ul, #wemd ol {
+  margin-top:14px;
+  margin-bottom:14px;
+}
+
+#wemd li {
+  display:flex;
+  margin-bottom:6px;
+  align-items:flex-start;
+  font-size:17px;
+  color:#111111;
+  line-height:1.9;
+  letter-spacing:0.2px;
+}
+
+#wemd section.citations {
+  margin-top:36px;
+  padding-top:18px;
+  border-top:1px solid #111111;
+}
+
+#wemd .citations h2 {
+  font-size:12px;
+  font-weight:700;
+  color:#111111;
+  margin-bottom:12px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+#wemd .citations li {
+  font-size:13px;
+  color:#555555;
+  margin-bottom:6px;
+  line-height:1.6;
+  word-break:break-all;
+}
+
+#wemd .citations a {
+  font-size:12px;
+  color:#D11A2A;
+  vertical-align:super;
+  margin-left:2px;
+}

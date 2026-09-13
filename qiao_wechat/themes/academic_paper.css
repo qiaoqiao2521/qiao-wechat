@@ -239,6 +239,11 @@
 
 /* 代码块 - 简单的学术风格 */
 /* 注意：不要设置 color，让语法高亮主题控制文字颜色 */
+#wemd pre {
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
 #wemd pre code.hljs {
     background: #f9f9f9;
     border: 1px solid #ccc;
@@ -248,9 +253,8 @@
     padding: 12px;
     border-radius: 0;
     /* 直角 */
-    overflow-x: auto;
-    white-space: pre;
-    min-width: max-content;
+    white-space: pre-wrap;
+    word-break: break-all;
 }
 
 /* 如果没有语法高亮，设置默认颜色 */

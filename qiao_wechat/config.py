@@ -51,9 +51,10 @@ class Settings(BaseSettings):
 
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:
-    settings = Settings()
-    settings.ensure_dirs()
-    return settings
+    # Directory creation is intentionally not done here: importing the package must
+    # work on clean machines where deployment paths (/srv/...) do not exist yet.
+    # Entry points (init_db via app lifespan / CLI) call ensure_dirs() explicitly.
+    return Settings()
 
 
 @lru_cache(maxsize=1)

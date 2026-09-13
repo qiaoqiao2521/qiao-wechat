@@ -134,21 +134,6 @@
     ],
     "updated_at": "2026-04-28T00:00:00+00:00"
   },
-  "wemd_card": {
-    "built_in": true,
-    "created_at": "2026-04-28T00:00:00+00:00",
-    "description": "Card-like WeMD-inspired article theme with white content blocks and soft shadows.",
-    "display_name": "WeMD Card",
-    "preview_cover": null,
-    "source": "qiao-wechat",
-    "source_url": null,
-    "tags": [
-      "card",
-      "wemd-like",
-      "wechat"
-    ],
-    "updated_at": "2026-04-28T00:00:00+00:00"
-  },
   "wechat_baseline": {
     "built_in": true,
     "created_at": "2026-05-10T00:00:00+00:00",
@@ -179,6 +164,21 @@
     ],
     "updated_at": "2026-05-12T00:00:00+00:00"
   },
+  "wemd_card": {
+    "built_in": true,
+    "created_at": "2026-04-28T00:00:00+00:00",
+    "description": "Card-like WeMD-inspired article theme with white content blocks and soft shadows.",
+    "display_name": "WeMD Card",
+    "preview_cover": null,
+    "source": "qiao-wechat",
+    "source_url": null,
+    "tags": [
+      "card",
+      "wemd-like",
+      "wechat"
+    ],
+    "updated_at": "2026-04-28T00:00:00+00:00"
+  },
   "wemd_clean": {
     "built_in": true,
     "created_at": "2026-04-28T00:00:00+00:00",
@@ -193,5 +193,1195 @@
       "wechat"
     ],
     "updated_at": "2026-04-28T00:00:00+00:00"
+  },
+  "xh_academic_paper": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:37+00:00",
+    "description": "学术期刊严肃感：纯白 + Times New Roman + 超小字 12-13px + 行距 1.7 + italic H3 + 超细分章节。H1 16px uppercase 纯黑、H2 14px italic 编号感、H3 13px italic 缩进、p 12px 首行缩进 2em 两端对齐、blockquote 左双线内嵌。论文派严肃（vs broadsheet 报刊密集派，vs newspaper 新闻派）。适合研究报告/深度分析/综述/严肃评论。",
+    "display_name": "学术论文",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:37+00:00"
+  },
+  "xh_apple_gradient": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:37+00:00",
+    "description": "Apple 风格，大留白+渐变色标题条+超大圆角+轻字重，适合产品评测、设计类",
+    "display_name": "苹果极简",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:37+00:00"
+  },
+  "xh_band_orange": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:37+00:00",
+    "description": "交替色带背景+暖橙强调色，适合产品动态、功能更新类文章",
+    "display_name": "交替色带·暖橙",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:37+00:00"
+  },
+  "xh_baroque_gold": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:37+00:00",
+    "description": "米金 #F5ECD7 + 深酒红 #6B1B2E + 金色 #B8860B 三色奢华风。H1 上下 double 金双线包裹+居中、H2 上下单金线+居中、H3 italic 金色居中、blockquote 上下金线+居中斜体+超大引号感、hr double 金线。所有元素全居中 italic 装饰。适合文艺评论/书评/复古怀旧/深度散文。",
+    "display_name": "极繁巴洛克",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:37+00:00"
+  },
+  "xh_bauhaus": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:37+00:00",
+    "description": "红蓝黄三原色 #E30613/#004D9F/#F5A623，粗黑边框，几何构成主义风格，适合设计师、创意类内容",
+    "display_name": "包豪斯",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:37+00:00"
+  },
+  "xh_blueprint": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:37+00:00",
+    "description": "工程图纸质感：深钴蓝底 #0B3D66 + 白细线 #E5F0FA + 浅蓝 #64B5F6 + 网格感。H1 uppercase 大号白字 + 下方双细线（刻度感），H2 浅蓝 + 左侧细竖线，p 浅白色等宽字体，代码块带尺寸刻度线感。独一份工程图纸感（工业制图/CAD 图风）。适合硬核技术架构/系统设计/工程决策。",
+    "display_name": "工程蓝图",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:37+00:00"
+  },
+  "xh_bold_blue": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:37+00:00",
+    "description": "醒目蓝 #4B6EF5 填充标题+色块h3，适合新闻/公告/重点内容",
+    "display_name": "醒目·蓝",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:37+00:00"
+  },
+  "xh_bold_green": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:37+00:00",
+    "description": "醒目绿 #2BAE85 填充标题+色块h3，适合新闻/公告/重点内容",
+    "display_name": "醒目·绿",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:37+00:00"
+  },
+  "xh_bold_navy": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:37+00:00",
+    "description": "醒目藏青 #1F4F8A 填充标题+色块h3，适合新闻/公告/重点内容",
+    "display_name": "醒目·藏青",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:37+00:00"
+  },
+  "xh_broadsheet": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:37+00:00",
+    "description": "纽约时报 broadsheet 风：纯黑白 + Georgia serif + 小字 13-15px + 紧凑行距 1.5-1.6。H1 35px 居中+副标题 kicker 感、H2 14px uppercase 小标+细底线、blockquote 大号 italic 居中+上下双线、段首下沉感。信息密度极高（vs magazine-serif 大字疏朗派）。适合新闻评论/报道/长篇分析。",
+    "display_name": "报刊密集",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:37+00:00"
+  },
+  "xh_brutalism_raw": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:37+00:00",
+    "description": "Brutalism 暴力美学，纯白底 + 纯黑粗框 + 黄色 #FFFF00 强调。H1 超大 38px 黑字左+底双粗线、H2 黑粗框包裹+荧光黄底、H3 纯黑下 3px 粗线、blockquote 纯黑 3px 粗框灰底、pre 全黑绿字 3px 框、strong 黑底白字反白、hr 6px 黑粗条。每个元素都被粗框包裹，no border-radius，方块极致。适合设计批评/独立观点/逆流文章/艺术评论。",
+    "display_name": "粗野主义",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:37+00:00"
+  },
+  "xh_bytedance": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:37+00:00",
+    "description": "字节蓝青渐变 #1677FF/#05D4CD，渐变胶囊标题，科技商务感，适合 SaaS 产品、技术方案介绍",
+    "display_name": "字节蓝",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:37+00:00"
+  },
+  "xh_chinese": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:37+00:00",
+    "description": "中国红 #8B1E22 强调，楷体标题，宣纸色背景，古典文化感，适合传统文化、国潮、中式美学内容",
+    "display_name": "中国风",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:37+00:00"
+  },
+  "xh_claude_scroll": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:37+00:00",
+    "description": "橘棕衬线书卷风，借鉴 github.com/GordenSun/WX 的 Claude 主题。主色 #C96442 呼应 Claude CLI 色带，配暖米底 #FAF9F6 + 墨棕正文 #3D2E20 + Songti SC 衬线，适合深度文/读书笔记/方法拆解。H1 下划居中、H2 左竖条、blockquote 左条柔底、pre 暖纸本、hr 菱形装饰。",
+    "display_name": "Claude 书卷",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:37+00:00"
+  },
+  "xh_coffee_house": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:37+00:00",
+    "description": "咖啡棕 #8d6e63 沉稳温暖，衬线字体感，适合读书/文化/深度内容",
+    "display_name": "咖啡",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:37+00:00"
+  },
+  "xh_cosmic_gold": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:37+00:00",
+    "description": "深空冷峻神秘：深空紫黑 #0B0118 + 金色 #E6B800 细字 + 冷紫点缀。H1 金色字距 8px 居中+金细线、H2 金边框+内嵌小字、blockquote 左金线+深紫底、hr 金渐变。神秘冷峻派（vs night-read 温暖书房派，vs cyber-neon 霓虹派）。适合哲学/玄幻/科幻/冥想/神秘主义。",
+    "display_name": "星空黑金",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:37+00:00"
+  },
+  "xh_cyber_neon": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:37+00:00",
+    "description": "深色底+霓虹青/品红发光效果+等宽字体感，适合前沿科技、AI话题",
+    "display_name": "赛博霓虹",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:37+00:00"
+  },
+  "xh_daimo": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:37+00:00",
+    "description": "大模型公司高端风:暖白底+赭橙克制点缀+衬线大标题+极致留白+零公众号装饰",
+    "display_name": "大厂",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:37+00:00"
+  },
+  "xh_dark_ocean": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:37+00:00",
+    "description": "全暗色沉浸式阅读+暗色首屏尾屏+大序号+引文穿插+交替色带+卡片组，适合科技深度、夜间阅读",
+    "display_name": "暗色沉浸·深海",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:37+00:00"
+  },
+  "xh_data_report": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:37+00:00",
+    "description": "报告蓝 #0F4C81 + 琥珀点缀，深底反白表头，为数据密集型内容设计：日报、榜单、模型对比",
+    "display_name": "数据简报",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:37+00:00"
+  },
+  "xh_elegant_blue": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:37+00:00",
+    "description": "精致蓝 #4B6EF5 左侧双线边框+渐变表头，适合杂志/设计/高端内容",
+    "display_name": "精致·蓝",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:37+00:00"
+  },
+  "xh_elegant_classic": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "金色强调，米色引用背景，适合深度长文、观点文",
+    "display_name": "优雅",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_elegant_green": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "精致绿 #2BAE85 左侧双线边框+渐变表头，适合杂志/设计/高端内容",
+    "display_name": "精致·绿",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_elegant_navy": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "精致藏青 #1F4F8A 左侧双线边框+渐变表头，适合杂志/设计/高端内容",
+    "display_name": "精致·藏青",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_focus_blue": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "聚焦蓝 #4B6EF5 居中标题+上下线，适合品牌/展示/营销内容",
+    "display_name": "聚焦·蓝",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_focus_gold": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "聚焦金 #C8A062 居中标题+上下线，适合品牌/展示/营销内容",
+    "display_name": "聚焦·金",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_focus_red": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "聚焦红 #F25C54 居中标题+上下线，适合品牌/展示/营销内容",
+    "display_name": "聚焦·红",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_fresh_card": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "春日嫩绿 #6b9b7a 强调，淡绿底+卡片布局+点状纹理+清新阴影，适合生活方式、自然主题",
+    "display_name": "清新卡片",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_github": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "GitHub 蓝 #0969DA 强调，灰色边框系统，白底开发者风格，适合技术博客、代码分享",
+    "display_name": "GitHub",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_glass_light": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "伪玻璃态：靛紫渐变底 + 半透明白卡 + 细白边框（微信不支持毛玻璃 blur，用透明度+渐变模拟）",
+    "display_name": "琉璃",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_hero_amber": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "暗色首屏+大序号+交替色带+引文穿插+手机阅读优化，温暖琥珀调性适合人物访谈、创业故事、年终总结类深度长文",
+    "display_name": "英雄·琥珀",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_hero_azure": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "azure 天空蓝，暗色首屏+大序号+交替色带+引文穿插+手机阅读优化",
+    "display_name": "英雄·azure",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_hero_coral": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "coral 橙红，暗色首屏+大序号+交替色带+引文穿插+手机阅读优化",
+    "display_name": "英雄·珊瑚",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_hero_emerald": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "暗色首屏+大序号+交替色带+引文穿插+手机阅读优化，翠绿调性适合成长、生态、自然类深度长文",
+    "display_name": "英雄·祖母绿",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_hero_mauve": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "mauve 灰调紫，暗色首屏+大序号+交替色带+引文穿插+手机阅读优化",
+    "display_name": "英雄·紫灰",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_hero_mint": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "mint 海青，暗色首屏+大序号+交替色带+引文穿插+手机阅读优化",
+    "display_name": "英雄·薄荷",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_hero_ochre": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "ochre 赭石金，暗色首屏+大序号+交替色带+引文穿插+手机阅读优化",
+    "display_name": "英雄·赭石",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_hero_purple": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "暗色首屏+大序号+交替色带+引文穿插+手机阅读优化，适合深度解读、公众号长文",
+    "display_name": "英雄·靛紫",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_hero_sage": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "sage 柔和灰绿，暗色首屏+大序号+交替色带+引文穿插+手机阅读优化",
+    "display_name": "英雄·鼠尾草",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_hero_slate": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "slate 灰蓝，暗色首屏+大序号+交替色带+引文穿插+手机阅读优化",
+    "display_name": "英雄·雾蓝",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_hero_taupe": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "taupe 暖灰棕，暗色首屏+大序号+交替色带+引文穿插+手机阅读优化",
+    "display_name": "英雄·卡其",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_industrial": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "工业警示标语感：深灰 #1F1F1F 底 + 警示橙 #FF6B00 + Inter Bold。H1 超大 Black 粗体+橙底+斜纹警戒条感、H2 橙字+左黄黑斜条、p 浅灰、blockquote 橙框警示牌感、hr 黄黑斜纹条。建筑工地/工厂警戒感（vs brutalism 纯黑派，vs terminal 荧光派）。适合硬核测评/行业警示/问题揭露/批评文。",
+    "display_name": "工业警戒",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_ink": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "纯黑 #000000 强调，Georgia 衬线体，极简黑白灰，适合深度长文、文学评论、严肃写作",
+    "display_name": "墨韵",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_ink_brush": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "东方极简书法感：纯白底 + 超大楷体墨黑 + 小面积印章红。H1 42px 字距 12px 居中、H2 印章红 italic 居中、hr 细短 20% 红线、blockquote 居中无边。极致留白派（vs rice-paper-ink 重装饰派）。适合古诗文/禅意随笔/短评/书评。",
+    "display_name": "墨水毛笔",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_interview": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "奶油纸底 + 勃艮第红 #8C3A3A，衬线标题居中，大字引文块，为访谈、对话、播客转写设计",
+    "display_name": "圆桌访谈",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_kaiti_journal": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "Kaiti/STKaiti 楷体 + 米白底 #FDF9F2 + 暖棕 #8B5A2B，纯楷体手记风格（现有库无纯楷体主题）。借鉴 github.com/GordenSun/WX 方法：H1 居中短粗底线、H2 虚线底、H3 左竖条、blockquote 居中italic、hr 细短线。适合随笔/读后感/日记/生活专栏。",
+    "display_name": "手记楷体",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_kami_clay": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "Kami 纸系·陶橙。宋体衬线+暖白底+陶橙 #C0562F 点缀，墨棕正文+渐变下划高亮、◆ 装饰分隔。温润手作，适合人文随笔、访谈、读书笔记",
+    "display_name": "纸陶",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_kami_ink": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "Kami 纸系·墨蓝。宋体衬线+极浅暖白底+墨蓝 #27548A 点缀，加粗渐变下划高亮、❖ 装饰分隔。沉稳专业，适合深度解读、研报、严肃长文",
+    "display_name": "纸墨",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_kami_pine": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "Kami 纸系·松绿。宋体衬线+极浅暖白底+松绿 #3F7A5C 点缀，墨绿正文+渐变下划高亮、❧ 装饰分隔。清润自然，适合思考随笔、方法拆解、慢读长文",
+    "display_name": "纸松",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_lavender_dream": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "薰衣草紫 #9b7fd4 梦幻优雅，渐变背景，适合美妆/艺术/灵感内容",
+    "display_name": "薰衣草",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_magazine": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "Apple 蓝紫渐变 #007AFF/#5856D6，圆角渐变标签，现代杂志风格，适合产品评测、科技资讯",
+    "display_name": "杂志",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_magazine_serif": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "印刷级杂志大字风 + Source Serif/Georgia 衬线 + 黑白对比 + 正红 #D11A2A 点缀。超大 H1 (30px) 居中压字距、H2 小型大写下 1px 细线、H3 italic 斜体、H4 uppercase 红色标签、p 两端对齐+首行缩进。适合深度解读/人物稿/读书笔记/长评论。",
+    "display_name": "杂志 Serif",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_memphis": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "80s Memphis 设计派：白底 + 跳跃多色（粉 #FF2E93 / 青 #00D4D8 / 黄 #FFD800 / 黑）+ 几何错位。H1 粉底黑字歪角 box-shadow 青色、H2 黄底黑字方块、H3 青色 uppercase、blockquote 带 3 色 border、hr 彩色块。不羁跳跃独一份（vs pastel 柔紫圆润 vs brutalism 纯黑）。适合潮流/独立艺术/时尚评论/Z 世代内容。",
+    "display_name": "孟菲斯",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_midnight": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "粉紫蓝渐变 #F472B6/#8B5CF6/#60A5FA，赛博朋克霓虹光效，适合 AI/Web3/科技前沿话题",
+    "display_name": "暗夜",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_minimal_blue": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "简约蓝 #4B6EF5 极简风格，无装饰标题，适合商务/科技/专业内容",
+    "display_name": "简约·蓝",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_minimal_gold": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "简约金 #C8A062 极简风格，无装饰标题，适合商务/科技/专业内容",
+    "display_name": "简约·金",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_minimal_gray": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "简约灰 #4E5969 极简风格，无装饰标题，适合商务/科技/专业内容",
+    "display_name": "简约·灰",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_minimal_navy": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "简约藏青 #1F4F8A 极简风格，无装饰标题，适合商务/科技/专业内容",
+    "display_name": "简约·藏青",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_minimal_red": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "简约红 #F25C54 极简风格，无装饰标题，适合商务/科技/专业内容",
+    "display_name": "简约·红",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_mint_fresh": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "薄荷绿 #1a7a5a 清新自然，圆角卡片，适合生活/健康/清新内容",
+    "display_name": "薄荷",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_newspaper": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "纽约时报风 #326891 蓝灰，Georgia 衬线体，居中双线标题，适合新闻评论、行业分析",
+    "display_name": "报纸",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_night_read": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "温暖暗底 #1C1815 + 暖橘 #E08B6A + serif，弥补现有暗主题全是 coding 冷调的空缺。借鉴 github.com/GordenSun/WX Claude 主题的暗调变体：H1 居中下划、H2 左条、blockquote 左条柔橘、pre 深墨底。专为夜间深度阅读/长文沉浸设计。",
+    "display_name": "夜读墨香",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_nordic_cool": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "北欧极简冷调：#F5F7FA 冷灰白 + #0EA5E9 冷蓝 + Inter sans + 超大留白。H1 小号 22px 左靠瘦字，H2 细线底，p 行距 2，整体呼吸感极大（vs swiss-grid 硬朗压字距派，本主题是纤细纤柔派）。适合极简生活/设计思考/产品评测/书摘。",
+    "display_name": "北欧冷白",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_notion_doc": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "Notion 风格：灰阶文字 #37352F + 红色行内代码 + 浅灰 callout，零装饰，科技读者的熟悉感",
+    "display_name": "极简文档",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_numbered_blue": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:38+00:00",
+    "description": "大序号标注章节+清爽蓝色强调，适合结构清晰的教程、指南类文章",
+    "display_name": "大序号·静蓝",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:38+00:00"
+  },
+  "xh_ocean_card": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:39+00:00",
+    "description": "深海蔚蓝 #4a7c9b 强调，淡蓝底+卡片布局+网格纹理+深海阴影，适合技术文章、商业分析",
+    "display_name": "静谧卡片",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:39+00:00"
+  },
+  "xh_pastel_dream": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:39+00:00",
+    "description": "奶油粉 #FFF3F0 + 雾紫 #A693C8 + 茶咖 #7B5B3E 三色柔调。H1 雾紫大胶囊卡片白字、H2 柔紫胶囊内联、H3 浅粉左条+圆角、blockquote 雾紫柔底大圆角、hr 粉渐变。圆润柔软基调，所有边角 border-radius 放大。适合生活美学/美妆/轻松随笔/治愈系。",
+    "display_name": "奶油马卡龙",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:39+00:00"
+  },
+  "xh_quote_lavender": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:39+00:00",
+    "description": "短引文居中穿插大字展示+薰衣草紫强调色，适合观点密集、金句多的深度文章",
+    "display_name": "引文穿插·薰衣草",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:39+00:00"
+  },
+  "xh_rice_paper_ink": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:39+00:00",
+    "description": "仿宋 + 墨黑 + 印章红，宣纸米底 #F8F4E8 上的东方古典书卷风。借鉴 github.com/GordenSun/WX 的组合方法：H1 居中双细线、H2 左墨竖条、H3 虚线底印章红、blockquote 居中上下线。适合读书笔记/文论/古典深度文。",
+    "display_name": "宣纸墨韵",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:39+00:00"
+  },
+  "xh_solarized_mint": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:39+00:00",
+    "description": "Solarized Light 老纸底 #FDF6E3 + 青绿 #2AA198 + 蓝色点缀，sans 无衬线低疲劳长读主题。借鉴 github.com/GordenSun/WX：H1 短粗底线居中、H2 下划、H3 左细条、pre solarized、hr 渐变淡出。适合技术长文/方法拆解/产品深度分析。",
+    "display_name": "日晒薄荷",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:39+00:00"
+  },
+  "xh_sports": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:39+00:00",
+    "description": "运动绿 #00A968 + 渐变色带，活力动感，适合体育/健身/户外内容",
+    "display_name": "运动",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:39+00:00"
+  },
+  "xh_sspai": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:39+00:00",
+    "description": "少数派红 #D71A1B 强调，衬线体标题，清爽白底，适合数码评测、效率工具分享",
+    "display_name": "少数派",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:39+00:00"
+  },
+  "xh_sticky_note": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:39+00:00",
+    "description": "便利贴手写感：鸭黄底 #FFF8B8 + 橙红 #FF6B35 + 棕字 + Caveat 手写字体。H1 大字随意、H2 橙色手写、blockquote 像便条手写附注、wrapper 带单边阴影模拟翘角贴纸。轻快随性独一份（vs pastel 柔紫圆润）。适合备忘录/灵感手记/吐槽/轻快评论。",
+    "display_name": "便签鸭黄",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:39+00:00"
+  },
+  "xh_storybook": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:39+00:00",
+    "description": "童书插画感：奶白 #FFFDF2 + 多彩四色（粉 #FF9AA2/桃 #FFB7B2/芒果 #FFDAC1/薄荷 #B5EAD7/天蓝 #C7CEEA）循环。H1 粉色大胶囊+白字、H2 桃色方块、H3 薄荷绿左条、blockquote 芒果底+天蓝字、hr 彩虹条。亲子童真派（vs pastel 单一柔紫，vs memphis 锋利跳跃）。适合儿童教育/育儿/亲子/轻松随笔。",
+    "display_name": "童书彩虹",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:39+00:00"
+  },
+  "xh_sunset_amber": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:39+00:00",
+    "description": "日落琥珀 #d37a45 温暖浓郁，渐变背景，适合故事/情感/旅行内容",
+    "display_name": "日落",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:39+00:00"
+  },
+  "xh_swiss_grid": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:39+00:00",
+    "description": "Swiss International Style，极左对齐+Helvetica 无衬线+超大字距+钴蓝 #0047AB 点缀。H1 35px 左靠紧压-0.03em 字距、H2 小号 uppercase 3px 字距+细底线、H3 钴蓝、blockquote 纯左竖线无背景。骨架硬朗，适合设计/技术/信息类深度文。",
+    "display_name": "瑞士国际主义",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:39+00:00"
+  },
+  "xh_terminal_matrix": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:39+00:00",
+    "description": "老派黑客终端风，纯黑 #0A0A0A + 荧光绿 #00FF41 单色通透，全局等宽字体 JetBrains Mono。H1 左 4px 绿条+uppercase 大字距、H2 绿色粗体+ `>` 风装饰、p 等宽绿色 14px、blockquote 左条缩进、hr 绿色虚线。专门用于极客向技术笔记/黑客文化/CTF writeup/OS 深度/CLI 工具教程。(vs cyber-neon 用青+品红双色装饰多,本主题单绿单调工程感)",
+    "display_name": "终端矩阵",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:39+00:00"
+  },
+  "xh_terracotta": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:39+00:00",
+    "description": "赤陶橙 #C86442 强调，暖灰文字，白底纹理，适合知识分享、自媒体干货",
+    "display_name": "赤陶",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:39+00:00"
+  },
+  "xh_timeline_green": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:39+00:00",
+    "description": "左侧时间线布局+翠绿强调色，适合产品更新历程、版本迭代、事件回顾类文章",
+    "display_name": "时间线·翠绿",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:39+00:00"
+  },
+  "xh_typewriter": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:39+00:00",
+    "description": "羊皮纸底 #F5E8C7 + 墨棕 #2C2416 + Courier 等宽 + 双横线 H1 + 稿纸行距。打字机怀旧手稿感，全局等宽字体、p 行距 1.9、H1 上下双细线夹（打字机标题），hr 短破折号。vs terminal 黑底绿字未来感，本主题是羊皮纸怀旧派。适合旧体散文/手账/信件体/回忆录。",
+    "display_name": "复古打字机",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:39+00:00"
+  },
+  "xh_vaporwave": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:39+00:00",
+    "description": "80s 梦幻蒸汽波美学：深紫底 #1A0D2E + 霓粉 #FF6AD5 + 水蓝 #79FFE1 双亮色。H1 霓粉超大 uppercase 10px 字距 + text-shadow 发光、H2 水蓝带下划、blockquote 霓粉柔底 + 水蓝左条、全局 font 等宽混搭。retro future 复古未来。适合 AI 艺术/赛博哲思/亚文化/电子音乐评论。",
+    "display_name": "蒸汽波",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:39+00:00"
+  },
+  "xh_warm_card": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:39+00:00",
+    "description": "秋日暖橙 #d97758 强调，暖白底+卡片布局+方格纹理+暖光阴影，适合深度文章、情感随笔",
+    "display_name": "暖光卡片",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:39+00:00"
+  },
+  "xh_washi_red": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:39+00:00",
+    "description": "日式和纸米底 #FBF6E7 + 朱红 #C93756 + 墨绿 #3F6A4E 双色对冲。Hiragino Mincho 明朝体，H1 上下 4px 朱红粗线夹持、H2 墨绿文字+左 6px 朱红竖条、H3 朱红+虚墨绿底线、blockquote 朱红竖条+墨绿文字。留白大、双色强对比。适合日系/文化/生活美学/慢读内容。",
+    "display_name": "和风朱绿",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:39+00:00"
+  },
+  "xh_wechat_native": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:39+00:00",
+    "description": "微信绿 #07c160 原生风格，适合官方/正式/通用内容",
+    "display_name": "微信原生",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:39+00:00"
+  },
+  "xh_zen_minimal": {
+    "built_in": false,
+    "created_at": "2026-09-13T19:12:39+00:00",
+    "description": "极简留白风格，超大行距+轻字重标题+单色调，适合散文、随笔、冥想类文章",
+    "display_name": "极简留白·禅",
+    "preview_cover": null,
+    "source": "xiaohu-wechat-format",
+    "source_url": "https://github.com/xiaohuailabs/xiaohu-wechat-format",
+    "tags": [
+      "xiaohu",
+      "imported"
+    ],
+    "updated_at": "2026-09-13T19:12:39+00:00"
   }
 }
