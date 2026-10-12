@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+from html import escape
 
 import tinycss2
 from bs4 import BeautifulSoup, Comment
@@ -53,10 +54,9 @@ class HtmlNormalizer:
 
         root = soup.body if soup.body else soup
         html = "".join(str(node) for node in root.contents)
-        html = re.sub(r">\s+<", "><", html)
         if head_rules:
             html = self._inline_external_css(html, head_rules)
-        return html.strip()
+        return html
 
     def _collect_style_rules(self, soup: BeautifulSoup) -> list[tuple[str, list[tuple[str, str, bool]]]]:
         """Extract (selector, [(prop, value, important)]) rules from <style> tags."""
@@ -101,30 +101,37 @@ class HtmlNormalizer:
             return html
         for wrapped in wrapper_root.iter_subtree():
             etree_element = wrapped.etree_element
-            selected: dict[str, tuple[bool, int, str]] = {}
+            selected: dict[str, tuple[tuple, str]] = {}
             for specificity, order, pseudo, payload in matcher.match(wrapped):
                 if pseudo is not None:
                     continue
-                _, declarations = payload
+                source_order, declarations = payload
                 for prop, value, important in declarations:
-                    rank = (1 if important else 0, order)
+                    rank = (1 if important else 0, (0, *specificity), source_order)
                     current = selected.get(prop)
-                    if current is None or rank >= current[:2]:
-                        selected[prop] = (rank[0], rank[1], value)
-            if not selected:
-                continue
-            existing = self._parse_style_map(etree_element.get("style") or "")
-            merged = {prop: value for prop, (_, _, value) in selected.items() if prop not in existing}
-            merged.update(existing)
+                    if current is None or rank >= current[0]:
+                        selected[prop] = (rank, value)
+            existing = tinycss2.parse_declaration_list(etree_element.get("style") or "", skip_comments=True, skip_whitespace=True)
+            for inline_order, declaration in enumerate(existing):
+                if declaration.type != "declaration":
+                    continue
+                prop = declaration.name if declaration.name.startswith("--") else declaration.lower_name
+                rank = (1 if declaration.important else 0, (1, 0, 0, 0), inline_order)
+                current = selected.get(prop)
+                if current is None or rank >= current[0]:
+                    selected[prop] = (rank, tinycss2.serialize(declaration.value).strip())
+            merged = {prop: value + ("!important" if rank[0] else "") for prop, (rank, value) in selected.items()}
             if merged:
                 etree_element.set("style", self._normalize_style(";".join(f"{k}:{v}" for k, v in merged.items())))
-        return "".join(
+        return escape(tree.text or "") + "".join(
             lxml_html.tostring(child, encoding="unicode", method="html")
             for child in tree
         )
 
     def compact(self, content: str) -> str:
-        soup = BeautifulSoup(content, "html.parser")
+        # Inline class-based styles before removing editor attributes. Never apply
+        # whole-document whitespace regexes: pre/code and inline gaps are text.
+        soup = BeautifulSoup(self.normalize(content), "html.parser")
 
         for comment in soup.find_all(string=lambda value: isinstance(value, Comment)):
             comment.extract()
@@ -137,7 +144,9 @@ class HtmlNormalizer:
             for attr in list(tag.attrs):
                 if attr == "style":
                     continue
-                if attr in {"class", "id"} or attr.startswith("data-"):
+                retained_data = {"data-wechat-references", "data-wechat-list-marker", "data-role"}
+                if attr in {"class", "id"} or (attr.startswith("data-") and attr not in retained_data
+                                               and not attr.startswith("data-format")):
                     del tag.attrs[attr]
 
             style = tag.attrs.get("style")
@@ -145,17 +154,78 @@ class HtmlNormalizer:
                 continue
             if isinstance(style, list):
                 style = " ".join(str(part) for part in style)
-            normalized = self._normalize_style(str(style))
+            normalized = self._normalize_style(str(style), compact=True)
             if normalized:
                 tag.attrs["style"] = normalized
             else:
                 del tag.attrs["style"]
 
-        compacted = str(soup)
-        compacted = re.sub(r">\s+<", "><", compacted)
-        compacted = re.sub(r"\n+", "", compacted)
-        compacted = re.sub(r"\s{2,}", " ", compacted)
-        return compacted.strip()
+        self._prune_inherited_styles(soup)
+        return str(soup)
+
+    @staticmethod
+    def _prune_inherited_styles(soup: BeautifulSoup) -> None:
+        """Remove identical inherited declarations across neutral HTML tags only.
+
+        Headings, links and code reset inference because browser default styles
+        may intervene. Relative values, important declarations and font/all
+        shorthand also stop inference; the optimizer never guesses a computed
+        style or changes source text.
+        """
+        neutral = {"p", "div", "section", "article", "span"}
+        properties = {"color", "font-family", "line-height"}
+
+        def known_value(name: str, value: str) -> bool:
+            lowered = value.lower()
+            if re.search(r"\b(?:inherit|initial|unset|revert|revert-layer|currentcolor)\b|(?:var|calc|env)\s*\(", lowered):
+                return False
+            if name == "line-height":
+                return bool(re.fullmatch(r"(?:\d+(?:\.\d+)?|\.\d+)", value))
+            if name == "color":
+                return bool(re.fullmatch(r"#[0-9a-fA-F]{3,8}|[a-zA-Z]+|(?:rgb|rgba|hsl|hsla)\([0-9.,% /+-]+\)", value))
+            return bool(value)
+
+        def walk(parent, inherited: dict[str, str]) -> None:
+            for node in parent.find_all(True, recursive=False):
+                if node.name not in neutral:
+                    walk(node, {})
+                    continue
+                declarations = tinycss2.parse_declaration_list(str(node.get("style") or ""), skip_comments=True, skip_whitespace=True)
+                if any(item.type != "declaration" or item.lower_name in {"all", "font"} for item in declarations):
+                    walk(node, {})
+                    continue
+                grouped: dict[str, list] = {}
+                for item in declarations:
+                    grouped.setdefault(item.lower_name, []).append(item)
+                effective = dict(inherited)
+                removed = set()
+                for name in properties:
+                    own = grouped.get(name)
+                    if not own:
+                        continue
+                    if len(own) != 1 or own[0].important:
+                        effective.pop(name, None)
+                        continue
+                    value = tinycss2.serialize(own[0].value).strip()
+                    if not known_value(name, value):
+                        effective.pop(name, None)
+                        continue
+                    if inherited.get(name) == value:
+                        removed.add(name)
+                    effective[name] = value
+                if removed:
+                    retained = [item for item in declarations if item.lower_name not in removed]
+                    style = ";".join(
+                        f"{item.name}:{tinycss2.serialize(item.value).strip()}" + ("!important" if item.important else "")
+                        for item in retained
+                    )
+                    if style:
+                        node["style"] = style
+                    else:
+                        node.attrs.pop("style", None)
+                walk(node, effective)
+
+        walk(soup, {})
 
     @staticmethod
     def _ensure_img_src(img) -> None:
@@ -198,21 +268,29 @@ class HtmlNormalizer:
     @staticmethod
     def _parse_style_map(style: str) -> dict[str, str]:
         mapping: dict[str, str] = {}
-        for declaration in style.split(";"):
-            if ":" not in declaration:
+        for declaration in tinycss2.parse_declaration_list(style, skip_comments=True, skip_whitespace=True):
+            if declaration.type != "declaration":
                 continue
-            name, value = declaration.split(":", 1)
-            key = name.strip().lower()
-            if not key:
-                continue
-            normalized_value = value.strip()
+            key = declaration.name if declaration.name.startswith("--") else declaration.lower_name
+            normalized_value = tinycss2.serialize(declaration.value).strip()
+            if declaration.important:
+                normalized_value += "!important"
             if normalized_value:
                 mapping[key] = normalized_value
         return mapping
 
     @staticmethod
-    def _normalize_style(style: str) -> str:
-        style = re.sub(r"\s*;\s*", ";", style.strip())
-        style = re.sub(r"\s*:\s*", ":", style)
-        style = re.sub(r";+$", "", style)
-        return style
+    def _normalize_style(style: str, *, compact: bool = False) -> str:
+        declarations = []
+        for declaration in tinycss2.parse_declaration_list(style, skip_comments=True, skip_whitespace=True):
+            if declaration.type != "declaration":
+                continue
+            name = declaration.name if declaration.name.startswith("--") else declaration.lower_name
+            if compact and name in {"color", "background-color", "border-color", "border", "outline"}:
+                for token in declaration.value:
+                    if token.type == "hash" and re.fullmatch(r"([0-9a-fA-F])\1([0-9a-fA-F])\2([0-9a-fA-F])\3", token.value):
+                        token.value = token.value[::2]
+            value = tinycss2.serialize(declaration.value).strip()
+            if value:
+                declarations.append(f"{name}:{value}" + ("!important" if declaration.important else ""))
+        return ";".join(declarations)

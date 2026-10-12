@@ -1383,5 +1383,22 @@
       "imported"
     ],
     "updated_at": "2026-09-13T19:12:39+00:00"
+  },
+  "blue_gold_editorial": {
+    "built_in": false,
+    "created_at": "2026-09-27T08:49:31+00:00",
+    "description": "v1.0。深蓝卷首、蓝青章节、金色强调；正文16px，支持对照、步骤、指标、代码窗口、洞察、警示、大字引用、总结与署名。禁用紫色、紫粉和薰衣草色。",
+    "display_name": "蓝金科技专题",
+    "preview_cover": null,
+    "source": "user",
+    "source_url": null,
+    "tags": [
+      "科技专题",
+      "蓝金",
+      "长文",
+      "组件",
+      "v1.0"
+    ],
+    "updated_at": "2026-09-27T08:49:31+00:00"
   }
 }

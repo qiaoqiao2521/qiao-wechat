@@ -15,6 +15,7 @@ from bs4 import BeautifulSoup
 from sqlalchemy.orm import Session
 
 from ..config import get_settings
+from ..limits import MAX_CONTENT_BYTES, MAX_CONTENT_CHARS, normalize_cover_info, validate_draft_text
 from ..models import Article, ArticleStatus, JobStatus, MediaAsset, PublishChannel, PublishJob, WeChatAccount
 from .html_normalizer import HtmlNormalizer
 from .image_service import ImageService
@@ -22,6 +23,7 @@ from .obsidian_assets import ObsidianAssetAdapter
 from .quality_gate import QualityGate
 from .renderer import WeChatMarkdownRenderer
 from .wechat_client import WeChatApiClient, WeChatError
+from .wechat_export import export_source_links, html_budget, semantic_snapshot, validate_preserved
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -185,13 +187,18 @@ class PublishService:
         article = self._article(article_id)
         if not article.html:
             raise ValueError("article.html is required")
+        source_semantics = semantic_snapshot(article.html)
         html = self.html_normalizer.normalize(article.html)
+        validate_preserved(source_semantics, html)
         article.html = html
         # Stamp the content revision before media URLs are substituted, so the
         # draft request key stays stable across retries of the same input.
         article.meta = {
-            **(article.meta or {}),
+            **{key: value for key, value in (article.meta or {}).items()
+               if key not in {"wechat_source_links", "wechat_export_preservation", "wechat_html_budget"}},
             "content_revision": self._compute_content_revision(article),
+            "wechat_source_semantics": source_semantics,
+            "draft_metadata_revision": self._compute_draft_metadata_revision(article),
         }
         if upload_inline_images:
             account = self._require_account(article)
@@ -219,6 +226,7 @@ class PublishService:
         markdown_dir = self._resolve_markdown_dir(article)
         prepared_markdown = self.obsidian_assets.rewrite_image_embeds(article.markdown, base_dir=markdown_dir)
         html = renderer.render(prepared_markdown, title=article.title)
+        source_semantics = semantic_snapshot(html)
         if upload_inline_images:
             account = self._require_account(article)
             client = WeChatApiClient(self.session, account)
@@ -235,9 +243,12 @@ class PublishService:
         article.local_preview_path = str(out)
         article.status = ArticleStatus.rendered
         article.meta = {
-            **(article.meta or {}),
+            **{key: value for key, value in (article.meta or {}).items()
+               if key not in {"wechat_source_links", "wechat_export_preservation", "wechat_html_budget"}},
             "local_preview_url": f"{self.settings.app_base_url}/preview/article/{article.id}",
             "content_revision": content_revision,
+            "wechat_source_semantics": source_semantics,
+            "draft_metadata_revision": self._compute_draft_metadata_revision(article),
         }
         self._job(article, PublishChannel.local_preview, JobStatus.success, response={"path": str(out)})
         self.session.flush()
@@ -253,7 +264,18 @@ class PublishService:
     ) -> Article:
         article = self._article(article_id)
         account = self._require_account(article)
-        request_key = self._draft_request_key(article, account)
+        # Validation must precede duplicate reuse as well as any remote uploads.
+        # Otherwise an invalid edited digest could reuse an old successful job.
+        old_unknown_key = (article.meta or {}).get("draft_request_key")
+        if not force_new and old_unknown_key and (article.meta or {}).get("draft_outcome") == "unknown":
+            self._raise_if_outcome_unknown(account.id, old_unknown_key)
+        try:
+            validate_draft_text(article.title, article.digest)
+            request_key = self._draft_request_key(article, account)
+        except ValueError as exc:
+            self._persist_failure(article, None, exc, error_category=ERROR_CATEGORY_VALIDATION,
+                                  meta_patch={"draft_outcome": "failed", "draft_failure_stage": "prepare"})
+            raise
         with _draft_lock(request_key):
             return self._create_wechat_draft_locked(
                 article,
@@ -276,6 +298,11 @@ class PublishService:
     ) -> Article:
         client = WeChatApiClient(self.session, account)
         if not force_new:
+            # Crop-aware keys must not bypass uncertain submissions made by the
+            # older key algorithm. Keep its existing reconciliation guard.
+            legacy_key = self._legacy_draft_request_key(article, account)
+            if legacy_key != request_key:
+                self._raise_if_outcome_unknown(account.id, legacy_key)
             reused = self._try_reuse_previous_draft(article, account.id, request_key)
             if reused is not None:
                 return reused
@@ -296,19 +323,24 @@ class PublishService:
         self.session.flush()
         submitted = False
         try:
+            digest = article.digest if article.digest is not None else self._auto_digest(article.markdown or article.html or "")
+            validate_draft_text(article.title, digest)
+            cover_info = normalize_cover_info((article.meta or {}).get("cover_info"))
             article.html = self._externalize_inline_svgs(article, account, client, article.html)
             cover_media_id = self._ensure_cover_media_id(article, account, client, force_reupload=force_reupload_cover)
             wx_article = {
                 "article_type": "news",
-                "title": article.title[:32],
+                "title": article.title,
                 "thumb_media_id": cover_media_id,
                 "author": (article.author or account.author or self.settings.default_author or "")[:16],
-                "digest": (article.digest or self._auto_digest(article.markdown or article.html or ""))[:128],
+                "digest": digest,
                 "content": self._prepare_wechat_draft_content(article, article.html),
                 "content_source_url": (article.content_source_url or "")[:1024],
                 "need_open_comment": 0,
                 "only_fans_can_comment": 0,
             }
+            if cover_info is not None:
+                wx_article["cover_info"] = cover_info
             self._validate_rendered_publish_artifacts(article.title, wx_article["content"])
             self._validate_draft_content(wx_article["content"])
             job.request_json = {"request_key": request_key, "articles": [{**wx_article, "content": "<omitted>"}]}
@@ -573,10 +605,15 @@ class PublishService:
     def _validate_draft_content(content: str | None) -> None:
         if not content:
             raise ValueError("WeChat draft content is required")
-        if len(content) >= 20_000:
-            raise ValueError("WeChat draft content must be under 20000 characters")
-        if len(content.encode("utf-8")) >= 1 * 1024 * 1024:
-            raise ValueError("WeChat draft content must be under 1MB")
+        if len(content) >= MAX_CONTENT_CHARS or len(content.encode("utf-8")) >= MAX_CONTENT_BYTES:
+            budget = html_budget(content)
+            raise ValueError(
+                "WeChat draft content must be under 20000 characters and under 1MB; "
+                f"chars={budget['chars']}, utf8_bytes={budget['utf8_bytes']}, "
+                f"remaining_chars={budget['remaining_chars']}, remaining_utf8_bytes={budget['remaining_utf8_bytes']}, "
+                f"parts_chars={budget['parts_chars']}, parts_utf8_bytes={budget['parts_utf8_bytes']}. "
+                "Split the article or link to a full version; text was not truncated."
+            )
 
     def _prepare_wechat_draft_content(self, article: Article, content: str | None) -> str:
         if not content:
@@ -585,26 +622,32 @@ class PublishService:
 
         original_chars = len(content)
         original_bytes = len(content.encode("utf-8"))
-        optimized = self._normalize_wechat_ordered_lists(content)
-        applied = False
-
-        if optimized != content:
-            applied = True
-
-        if len(optimized) >= 20_000 or len(optimized.encode("utf-8")) >= 1 * 1024 * 1024:
-            candidate = self._compact_wechat_html(optimized)
-            if len(candidate) < len(optimized) or len(candidate.encode("utf-8")) < len(optimized.encode("utf-8")):
-                optimized = candidate
-                applied = True
+        source_semantics = (article.meta or {}).get("wechat_source_semantics") or semantic_snapshot(content)
+        optimized = self.html_normalizer.normalize(content)
+        optimized = self._normalize_wechat_ordered_lists(optimized)
+        optimized, links = export_source_links(optimized)
+        candidate = self._compact_wechat_html(optimized)
+        if len(candidate) < len(optimized) or len(candidate.encode("utf-8")) < len(optimized.encode("utf-8")):
+            optimized = candidate
+        preservation = validate_preserved(source_semantics, optimized)
 
         meta = {**(article.meta or {})}
         meta["wechat_draft_compaction"] = {
-            "applied": applied,
+            "applied": optimized != content,
             "original_chars": original_chars,
             "final_chars": len(optimized),
             "original_bytes": original_bytes,
             "final_bytes": len(optimized.encode("utf-8")),
         }
+        meta["wechat_export_preservation"] = preservation
+        previous_links = meta.get("wechat_source_links") or {}
+        meta["wechat_source_semantics"] = source_semantics
+        meta["wechat_source_links"] = {
+            "external_urls": list(dict.fromkeys([*previous_links.get("external_urls", []), *links["external_urls"]])),
+            "footnotes_added": previous_links.get("footnotes_added", 0) + links["footnotes_added"],
+            "unsafe_links_removed": previous_links.get("unsafe_links_removed", 0) + links["unsafe_links_removed"],
+        }
+        meta["wechat_html_budget"] = html_budget(optimized)
         article.meta = meta
 
         self._validate_draft_content(optimized)
@@ -684,7 +727,10 @@ class PublishService:
                 for index, item in enumerate(items, start=1):
                     if index > 1:
                         paragraph.append(soup.new_tag("br"))
-                    paragraph.append(prefix_builder(index))
+                    marker = soup.new_tag("span")
+                    marker["data-wechat-list-marker"] = "1"
+                    marker.string = prefix_builder(index)
+                    paragraph.append(marker)
 
                     for child in list(item.contents):
                         child_name = getattr(child, "name", None)
@@ -805,13 +851,32 @@ class PublishService:
             "theme": theme if theme is not None else (article.theme or ""),
             "content": article.markdown or article.html or "",
         }
+        cover_info = normalize_cover_info((article.meta or {}).get("cover_info"))
+        if cover_info is not None:
+            payload["cover_info"] = cover_info
         canonical = json.dumps(payload, ensure_ascii=False, sort_keys=True)
         return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
     def _draft_request_key(self, article: Article, account: WeChatAccount) -> str:
+        approved_metadata = (article.meta or {}).get("draft_metadata_revision")
+        if approved_metadata and approved_metadata != self._compute_draft_metadata_revision(article):
+            raise ValueError("draft metadata changed after preparing the approved source; run prepare_html_article or render_article for the new version before submitting")
         revision = (article.meta or {}).get("content_revision")
         if not revision:
             revision = self._compute_content_revision(article)
+        cover_info = normalize_cover_info((article.meta or {}).get("cover_info"))
+        crop_revision = ":" + json.dumps(cover_info, sort_keys=True) if cover_info is not None else ""
+        return hashlib.sha256(f"{account.id}:wx_draft:{revision}{crop_revision}".encode("utf-8")).hexdigest()
+
+    @staticmethod
+    def _compute_draft_metadata_revision(article: Article) -> str:
+        payload = {name: getattr(article, name) or "" for name in (
+            "title", "author", "digest", "cover_source", "content_source_url", "theme"
+        )}
+        return hashlib.sha256(json.dumps(payload, ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()
+
+    def _legacy_draft_request_key(self, article: Article, account: WeChatAccount) -> str:
+        revision = (article.meta or {}).get("content_revision") or self._compute_content_revision(article)
         return hashlib.sha256(f"{account.id}:wx_draft:{revision}".encode("utf-8")).hexdigest()
 
     def _find_previous_draft_job(self, account_id: int, request_key: str, *, status: JobStatus) -> PublishJob | None:
@@ -834,6 +899,13 @@ class PublishService:
         media_id = (previous.response_json or {}).get("media_id")
         if not media_id:
             return None
+        meta = article.meta or {}
+        if not meta.get("draft_metadata_revision") and meta.get("content_revision"):
+            # Old HTML may already contain substituted image URLs, so its raw
+            # revision cannot always be recovered. Reject uncertain legacy reuse
+            # rather than treating mutable metadata as a proven old version.
+            if meta["content_revision"] != self._compute_content_revision(article):
+                raise ValueError("legacy draft metadata cannot be matched to its prepared source; run prepare_html_article or render_article for the approved version before retrying")
         article.wx_draft_media_id = media_id
         article.status = ArticleStatus.draft_created
         article.meta = {

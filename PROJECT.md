@@ -77,6 +77,8 @@
 
 ## Knowledge Map
 
+- 2026-09-27 用户选定「蓝金科技专题」v1.0，登记为可选主题 `blue_gold_editorial`。配色禁用紫色，组件按文章内容选用；说明与不同内容的复用示例见 [docs/themes/blue-gold-editorial/README.md](docs/themes/blue-gold-editorial/README.md)。保留现有默认主题；该登记不代表微信手机真机验收。
+
 - 启动协议：[AGENTS.md](AGENTS.md)
 - 用户入口：[README.md](README.md)
 - 当前架构：[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)

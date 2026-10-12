@@ -67,6 +67,7 @@ theme stylesheet
 主题文件位于 [`qiao_wechat/themes/`](../qiao_wechat/themes/)，元数据集中在 [`qiao_wechat/themes/metadata.json`](../qiao_wechat/themes/metadata.json)。当前内置主题：
 
 - `wechat_baseline`（默认发布主题，负责稳定的公众号正文基线节奏，不承担预览卡片外壳）
+- `blue_gold_editorial`（蓝金科技专题 v1.0，深蓝/青/金配色，不使用紫色；普通 Markdown 与可选专题组件，见 [使用说明与示例](themes/blue-gold-editorial/README.md)）
 - `wemd_clean` / `wemd_card`（偏 WeMD 取向的公众号正文主题）
 - `default` / `grace` / `simple` / `modern`（复用了本地 `wechat-format` 内置模板结构，再改成 Python 侧可直接编译的主题 CSS）
 - `academic_paper` / `bauhaus` / `knowledge_base` / `morandi_forest` / `receipt`（迁自 WeMD 官方模板目录，并适配到当前 `#wemd` + inline 编译链路）
@@ -459,3 +460,13 @@ uv run pytest -q
 - freepublish 状态轮询与正式文章 URL 回填。
 
 > 上述测试目录与覆盖项以 `tests/` 实际为准；本节未宣称上述全部已在新版本上跑通，发布收口见 [当前计划](../plans/2026-09-draft-workflow-reliability/task_plan.md) 阶段 5。
+
+## 微信导出、长度与封面
+
+摘要按120字符校验，不再按UTF-8字节或128字符截断。正文导出保留代码缩进、换行和行内空格；站外来源补可见完整URL，可复制使用。微信站内HTTPS链接保留点击能力。
+
+最终HTML包含来源脚注与内联样式，必须少于20000字符且小于1MiB。文章meta的 `wechat_html_budget` 分别保存正文、样式、结构和引用的体积与余量；超限时拆篇或在阅读原文承载完整版，不会静默删段落。
+
+为新封面传入 `meta.cover_info.crop_percent_list`，两项ratio分别为 `2.35_1`、`1_1`，每项提供字符串或数值的 `x1/y1/x2/y2`，取值0到1且窗口有正面积。旧稿没有此字段仍可投递；默认不会改变其封面。坐标应来自上传母图，不能使用裁剪预览自身的坐标。
+
+批准后改标题、作者、摘要或来源字段，先调用 `prepare_html_article` 或 `render_article` 重新绑定源稿。存在未知远端结果时先核对草稿箱；重新准备源稿和修改裁剪不会绕过该保护。

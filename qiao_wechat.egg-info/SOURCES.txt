@@ -5,6 +5,7 @@ qiao_wechat/app.py
 qiao_wechat/cli.py
 qiao_wechat/config.py
 qiao_wechat/db.py
+qiao_wechat/limits.py
 qiao_wechat/models.py
 qiao_wechat/scheduler.py
 qiao_wechat/schemas.py
@@ -27,10 +28,12 @@ qiao_wechat/services/theme_gallery.py
 qiao_wechat/services/theme_manager.py
 qiao_wechat/services/visual_renderer.py
 qiao_wechat/services/wechat_client.py
+qiao_wechat/services/wechat_export.py
 qiao_wechat/services/wechat_repo_flow.py
 qiao_wechat/services/xhs_exporter.py
 qiao_wechat/themes/academic_paper.css
 qiao_wechat/themes/bauhaus.css
+qiao_wechat/themes/blue_gold_editorial.css
 qiao_wechat/themes/default.css
 qiao_wechat/themes/grace.css
 qiao_wechat/themes/knowledge_base.css
@@ -130,6 +133,8 @@ qiao_wechat/themes/xh_wechat_native.css
 qiao_wechat/themes/xh_zen_minimal.css
 tests/test_app_gallery.py
 tests/test_capability_gaps.py
+tests/test_capmesh_agy.py
+tests/test_capmesh_cbc.py
 tests/test_cli_html_draft.py
 tests/test_draft_reliability.py
 tests/test_html_draft_api.py
@@ -144,3 +149,4 @@ tests/test_sample_regression.py
 tests/test_theme_api.py
 tests/test_theme_manager.py
 tests/test_wechat_client.py
+tests/test_wechat_export.py

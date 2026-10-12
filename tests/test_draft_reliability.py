@@ -262,6 +262,7 @@ def test_legacy_sqlite_migration_adds_columns_without_data_loss(tmp_path):
 
     legacy_engine = ce(f"sqlite:///{legacy_path}", future=True)
     _ensure_schema_columns(legacy_engine)
+    _ensure_schema_columns(legacy_engine)
 
     check = sqlite3.connect(legacy_path)
     try:
@@ -269,6 +270,7 @@ def test_legacy_sqlite_migration_adds_columns_without_data_loss(tmp_path):
         assert {"error_category", "request_key"} <= columns
         rows = check.execute("SELECT article_id, status, error_message FROM publish_jobs").fetchall()
         assert rows == [(1, "failed", "legacy failure")]
+        assert check.execute("SELECT request_key,error_category FROM publish_jobs").fetchall() == [(None, None)]
     finally:
         check.close()
 

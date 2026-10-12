@@ -54,6 +54,9 @@
 ## 关键不变量
 
 - HTML 入口设置 `content_ingress=html` 并经 `prepare_html_article`；进入共用草稿服务时避免 Markdown 重渲染；`<head><style>` 规则按选择器内联到元素 style，`<style>` 标签移除。
+- 微信导出由 `wechat_export.py` 和 `HtmlNormalizer` 处理：保护正文与代码空白，站外来源降级为去重的可见完整URL，合法微信链接保持href；只在中性DOM继承可证明等价时删除重复样式。最终HTML按20000字符/1MiB排他上限分项计量，超限拒绝，不截正文。
+- `limits.py` 统一标题32字符、摘要120字符与双裁剪字段；提供裁剪时要求2.35_1和1_1两套归一化窗口，并绑定草稿请求身份。批准后的标题、作者或摘要变化必须重新prepare/render；旧unknown请求仍阻断未核对重发。
+- 原始HTML/Markdown渲染结果在媒体替换前记录语义指纹；源稿更新通过prepare/render刷新指纹。正文导出和实际微信回读分别验证，后者不能替代前者。
 - 草稿幂等：同账号 + 同 `request_key` 的成功结果直接复用（不重复调用 `draft/add`）；结果未知的尝试默认拦截重发，只有显式 `force_new`（CLI `--force-new` / API 字段）放行。
 - `content_revision` 在图片/素材 URL 替换之前计算（Markdown 源文或 normalize 后的 HTML + 主题 + 元数据），保证重试间稳定。
 - 远端调用成功后的状态提交在服务内完成；提交失败 → 独立会话写入 `remote_result_unknown` 记录，供人工核对草稿箱后决定重试。

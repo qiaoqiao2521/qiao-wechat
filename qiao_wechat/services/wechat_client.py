@@ -210,6 +210,9 @@ class WeChatApiClient:
 
     @staticmethod
     def _checked_json(resp: requests.Response) -> dict[str, Any]:
+        # WeChat JSON stays UTF-8 when requests infers Latin-1 from text/plain.
+        # Use the same decoding as the daily draft readback.
+        resp.encoding = "utf-8"
         try:
             payload = resp.json()
         except Exception as exc:  # pragma: no cover - depends on remote

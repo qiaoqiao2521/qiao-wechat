@@ -6,6 +6,7 @@ from typing import Any, Literal
 from pydantic import BaseModel, Field
 
 from .models import AccountStatus, AccountType, ArticleStatus, JobStatus, PublishChannel
+from .limits import MAX_DIGEST_CHARS, MAX_TITLE_CHARS
 
 
 class AccountCreate(BaseModel):
@@ -36,10 +37,10 @@ class AccountOut(BaseModel):
 
 class ArticleCreate(BaseModel):
     account_id: int | None = None
-    title: str = Field(max_length=32)
+    title: str = Field(max_length=MAX_TITLE_CHARS)
     markdown: str
     author: str | None = None
-    digest: str | None = Field(default=None, max_length=128)
+    digest: str | None = Field(default=None, max_length=MAX_DIGEST_CHARS)
     cover_source: str | None = None
     content_source_url: str | None = None
     theme: str = "wechat_baseline"
@@ -57,11 +58,11 @@ class HtmlDraftOptions(BaseModel):
 
 class HtmlDraftCreate(BaseModel):
     account_id: int
-    title: str = Field(max_length=32)
+    title: str = Field(max_length=MAX_TITLE_CHARS)
     html: str = Field(min_length=1)
     asset_base_dir: str | None = None
     author: str | None = None
-    digest: str | None = Field(default=None, max_length=128)
+    digest: str | None = Field(default=None, max_length=MAX_DIGEST_CHARS)
     cover_source: str | None = None
     content_source_url: str | None = None
     meta: dict[str, Any] | None = None
@@ -92,10 +93,10 @@ class HtmlDraftCreate(BaseModel):
 class HtmlDraftFileCreate(BaseModel):
     account_id: int
     html_path: str = Field(min_length=1)
-    title: str | None = Field(default=None, max_length=32)
+    title: str | None = Field(default=None, max_length=MAX_TITLE_CHARS)
     asset_base_dir: str | None = None
     author: str | None = None
-    digest: str | None = Field(default=None, max_length=128)
+    digest: str | None = Field(default=None, max_length=MAX_DIGEST_CHARS)
     cover_source: str | None = None
     content_source_url: str | None = None
     meta: dict[str, Any] | None = None

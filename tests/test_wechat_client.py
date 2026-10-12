@@ -1,10 +1,23 @@
 from pathlib import Path
 
 import pytest
+import requests
+import json
 
 from qiao_wechat.config import get_plain_env
 from qiao_wechat.models import WeChatAccount
 from qiao_wechat.services.wechat_client import WeChatApiClient
+
+
+def test_draft_readback_decodes_utf8_despite_inferred_latin1():
+    expected = {"news_item": [{"title": "公众号中文标题", "content": "<p>保留正文、来源和标点。</p>"}]}
+    response = requests.Response()
+    response.status_code = 200
+    response.headers["Content-Type"] = "text/plain"
+    response.encoding = "ISO-8859-1"
+    response._content = json.dumps(expected, ensure_ascii=False).encode("utf-8")
+    assert response.json() != expected
+    assert WeChatApiClient._checked_json(response) == expected
 
 
 def test_validate_inline_image_rejects_gif(tmp_path: Path):

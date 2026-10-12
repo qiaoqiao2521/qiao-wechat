@@ -211,7 +211,11 @@ def test_html_ingress_is_never_markdown_rerendered(db, account, mock, monkeypatc
     assert "mmbiz.qpic.cn/mock/inline/transparent.png" in html
     # 草稿 payload 保持外部 HTML 原文（不经 Markdown 主题包裹）
     payload = mock.draft_payloads[0]
-    assert "demo-quote" in payload["content"]
+    # WeChat export removes class names after inlining; verify the upstream
+    # appearance rather than an editor attribute that no longer affects it.
+    exported = BeautifulSoup(payload["content"], "html.parser")
+    assert "border-left:4px solid #07c160" in exported.blockquote["style"]
+    assert "padding:8px 12px" in exported.blockquote["style"]
     assert "wemd" not in payload["content"], "草稿内容不得出现 Markdown 主题标记"
     # 本地预览文件生成且不重渲染
     assert article.local_preview_path and Path(article.local_preview_path).exists()
