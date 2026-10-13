@@ -9,3 +9,23 @@ data/
 outputs/
 uploads/
 build/
+
+# Historical native execution evidence stays private; static spec is tracked.
+plans/2026-09-30-cli-capmesh-hardening/*.json
+!plans/2026-09-30-cli-capmesh-hardening/spec.json
+plans/2026-09-30-cli-capmesh-hardening/*.lock
+
+# Verified one-off 436 account scripts remain private and are not product entry points.
+/publish_5_drafts.py
+/publish_ax_draft.py
+/publish_claude_drafts.py
+/publish_cognitive_draft.py
+/publish_flp_draft.py
+/publish_google_drafts.py
+/publish_magnificent_draft.py
+/publish_math_draft.py
+/publish_privacy_draft.py
+/publish_viral_drafts.py
+/publish_voicestudio_draft.py
+/remote_publish_drafts.py
+/test_wechat_draft.py

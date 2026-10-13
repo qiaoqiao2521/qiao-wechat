@@ -16,6 +16,7 @@ qiao_wechat.egg-info/entry_points.txt
 qiao_wechat.egg-info/requires.txt
 qiao_wechat.egg-info/top_level.txt
 qiao_wechat/services/__init__.py
+qiao_wechat/services/clipboard_export.py
 qiao_wechat/services/creative_pipeline.py
 qiao_wechat/services/html_normalizer.py
 qiao_wechat/services/image_service.py
@@ -136,6 +137,7 @@ tests/test_capability_gaps.py
 tests/test_capmesh_agy.py
 tests/test_capmesh_cbc.py
 tests/test_cli_html_draft.py
+tests/test_clipboard_export.py
 tests/test_draft_reliability.py
 tests/test_html_draft_api.py
 tests/test_html_draft_file_api.py

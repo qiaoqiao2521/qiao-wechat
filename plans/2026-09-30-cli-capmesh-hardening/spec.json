@@ -1,0 +1,45 @@
+{
+  "identity": {
+    "repo": "qiao-wechat",
+    "capability": "wechat-draft-reliability",
+    "contract": "unknown-retry-and-account-reuse",
+    "error_class": "duplicate-draft-after-recovery",
+    "subject": "PublishService-and-cli"
+  },
+  "repository_ref": "qiaoqiao2521/qiao-wechat",
+  "workflow": "mutation",
+  "question": "未知结果/复用/CLI重试契约能否被三个CLI交付的跨会话故障注入检查独立验证？",
+  "reopen_when": "新增执行或检查覆盖、真实代码/运行环境修正；不得因更换agent重置次数",
+  "contract": {
+    "reference": "docs/ARCHITECTURE.md#关键不变量",
+    "version": "4c6ef1752e6a36338d09f8d8c912e0e5c7fcb5b4",
+    "expectation": "unknown默认拦截重发；同账号成功复用，不跨账号复用；CLI未知结果给出核对草稿箱指引"
+  },
+  "scope": {
+    "root": "/home/muqiao/repo-scan/qiao-wechat",
+    "paths": [
+      "qiao_wechat/services/publisher.py",
+      "qiao_wechat/cli.py",
+      "qiao_wechat/db.py",
+      "qiao_wechat/models.py",
+      "tests/test_draft_reliability.py",
+      "tests/test_operation_feedback.py",
+      "docs/ARCHITECTURE.md",
+      "pyproject.toml"
+    ]
+  },
+  "budget": {
+    "attempts": 2,
+    "corrections": 1,
+    "stability": 0
+  },
+  "quality_dimensions": {
+    "correctness": "not_covered",
+    "data_integrity": "not_covered",
+    "privacy_permissions": "not_covered",
+    "performance": "not_covered",
+    "compatibility": "not_covered",
+    "accessibility": "not_covered"
+  },
+  "baseline_notes": "独立Python3.13 venv；原仓主题改动保持；只执行本地fake客户端。正常基线日志见baseline.log。"
+}

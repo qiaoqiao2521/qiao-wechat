@@ -82,3 +82,7 @@
 - 排版和图片：现有 `tests/test_renderer.py`、`test_html_normalizer.py`、`test_image_service.py`、`test_publisher.py`。
 - API/CLI 入口：`tests/test_html_draft_api.py`、`test_html_draft_file_api.py`、`test_cli_html_draft.py`。
 - 产品取舍：[DECISIONS](DECISIONS.md)；历史权限：[OPS](../OPS.md)。
+
+## 只读富文本复制出口
+
+`services/clipboard_export.py`从已保存的静态文章HTML派生纯正文片段与纯文本，复用HTML标准化、来源URL导出、语义保护与预算；不拥有账号或投递生命周期。内容仓工作台的GET导出和ClipboardItem负责用户手势复制。预览页面壳不会进入剪贴板，固定模板不会重渲染。互操作研究与SVG边界见[研究合并](research/xiumi-135-20261013.md)。
