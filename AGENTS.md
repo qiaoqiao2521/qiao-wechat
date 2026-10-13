@@ -12,6 +12,9 @@
 
 ## 项目规则
 
+- 木乔公众号2026-10-14新策略：内容和微信草稿由用户验收；不调用独立内容模型评审，不做投递后自动回读。仅保存API成功响应，明确待用户验收；未知提交仍不盲重发。
+- 本用户已定稿Markdown先走内容仓`automation/daily-wechat/package_article.py`的固定math-analysis-v1模板与独立配图入口，再以HTML进入本仓；不自行改用wemd_clean等通用主题。436内容仓为`/srv/self-media-exchange/inbox/xueyu-gongzhonghao-receive`；规则见该仓`docs/confirmed-article-layout.md`。通用库和用户另行指定的外部HTML入口保留。
+
 - 外部 HTML 入口保留为一等入口，不隐式套 Markdown 主题或另造投递实现。
 - 创建草稿不等于发布；默认不开手机预览/正式发布，能力以对应账号证据为准（详见 OPS.md）。
 - 保留 WCM_ 配置兼容、CLI 行为及内容仓路径；迁移先准备兼容和回退。
