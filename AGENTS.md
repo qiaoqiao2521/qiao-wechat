@@ -14,6 +14,7 @@
 
 - 木乔公众号2026-10-14新策略：内容和微信草稿由用户验收；不调用独立内容模型评审，不做投递后自动回读。仅保存API成功响应，明确待用户验收；未知提交仍不盲重发。
 - 本用户已定稿Markdown先走内容仓`automation/daily-wechat/package_article.py`的固定math-analysis-v1模板与独立配图入口，再以HTML进入本仓；不自行改用wemd_clean等通用主题。436内容仓为`/srv/self-media-exchange/inbox/xueyu-gongzhonghao-receive`；规则见该仓`docs/confirmed-article-layout.md`。通用库和用户另行指定的外部HTML入口保留。
+- 定稿包新建投递使用现有`html-draft --package-dir`：校对源稿与产物哈希，在同一初始文章保留Markdown、模板身份和HTML。不能打包后又用另一份AI生成的HTML替代却沿用原模板报告。普通`--html`仍供用户明确选择的外部版式使用；不在通用库全局禁用HTML。
 
 - 外部 HTML 入口保留为一等入口，不隐式套 Markdown 主题或另造投递实现。
 - 创建草稿不等于发布；默认不开手机预览/正式发布，能力以对应账号证据为准（详见 OPS.md）。

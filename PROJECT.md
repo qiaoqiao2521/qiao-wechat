@@ -15,6 +15,7 @@
 
 - 保留 Python 工具链，用 CLI 或轻量 Web/API 完成文章交付。
 - 同时接收 Markdown 与外部已经排好的 HTML；外部 HTML 不重新走 Markdown 主题渲染。
+- `html-draft --package-dir`复用同一HTML投递服务，核对内容仓既有打包文件并保存原Markdown、模板／版本和产物绑定；防止渲染后换文件的交接断点。已有`--html`兼容保留。内容仓编辑桌通过ThemeManager和WeChatMarkdownRenderer直接查看真实模板，不另建渲染引擎。
 - 用户能看本地预览，确认正文和封面，再检查公众号后台草稿。
 - 内容创作及个人 IP 文风流程由内容仓/上游 workflow 负责，本仓提供最后的排版与投递能力。
 - 排版层方向以 WeMD / xiaohu-wechat-format 为准（微信兼容 inline HTML、主题 CSS 即数据）；wxAiPost 类项目只作发布链路结构参考，不是最终方案（2026-09-14 确认，见 DECISIONS D15）。

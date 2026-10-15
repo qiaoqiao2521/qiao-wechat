@@ -144,7 +144,8 @@ class HtmlNormalizer:
             for attr in list(tag.attrs):
                 if attr == "style":
                     continue
-                retained_data = {"data-wechat-references", "data-wechat-list-marker", "data-role"}
+                retained_data = {"data-wechat-references", "data-wechat-list-marker", "data-role",
+                                 "data-wechat-template", "data-wechat-template-revision"}
                 if attr in {"class", "id"} or (attr.startswith("data-") and attr not in retained_data
                                                and not attr.startswith("data-format")):
                     del tag.attrs[attr]

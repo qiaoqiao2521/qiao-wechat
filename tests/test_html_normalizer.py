@@ -1,6 +1,14 @@
 from qiao_wechat.services.html_normalizer import HtmlNormalizer
 
 
+def test_compaction_preserves_known_template_identity_but_not_editor_data():
+    body = '<section data-wechat-template="math-analysis-v1" data-wechat-template-revision="7" data-editor-private="discard"><p>正文</p></section>'
+    output = HtmlNormalizer().compact(body)
+    assert 'data-wechat-template="math-analysis-v1"' in output
+    assert 'data-wechat-template-revision="7"' in output
+    assert 'data-editor-private' not in output
+
+
 def test_normalize_moves_img_dimensions_to_style_and_restores_src():
     html = """
     <section>

@@ -133,24 +133,37 @@ def cmd_draft(args: argparse.Namespace) -> None:
 
 
 def cmd_html_draft(args: argparse.Namespace) -> None:
+    package = None
+    try:
+        if getattr(args, "package_dir", None):
+            from .services.rendered_package import load_rendered_package
+            if args.cover or args.asset_base_dir:
+                raise ValueError("--package-dir uses its bound cover and asset directory; overrides are not allowed")
+            package = load_rendered_package(args.package_dir, title=args.title)
+    except Exception as exc:
+        print(_friendly_draft_error(exc), file=sys.stderr)
+        raise SystemExit(1) from exc
     init_db()
     with db_session() as db:
         try:
-            article = PublishService(db).create_html_file_draft(
+            service = PublishService(db)
+            common = dict(
                 account_id=args.account_id,
-                html_path=args.html,
-                title=args.title,
-                asset_base_dir=args.asset_base_dir,
                 author=args.author,
                 digest=args.digest,
-                cover_source=args.cover,
                 content_source_url=args.content_source_url,
-                meta=None,
                 upload_inline_images=not args.no_upload_inline_images,
                 force_reupload_cover=args.force_reupload_cover,
                 create_local_preview=not args.no_local_preview,
                 force_new=args.force_new,
             )
+            if package is not None:
+                article = service.create_html_draft(**package, **common)
+            else:
+                article = service.create_html_file_draft(
+                    html_path=args.html, title=args.title, asset_base_dir=args.asset_base_dir,
+                    cover_source=args.cover, meta=None, **common,
+                )
         except Exception as exc:  # noqa: BLE001 - CLI 边界：转为可执行提示
             print(_friendly_draft_error(exc), file=sys.stderr)
             raise SystemExit(1) from exc
@@ -349,7 +362,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     s = sub.add_parser("html-draft")
     s.add_argument("--account-id", type=int, required=True)
-    s.add_argument("--html", required=True)
+    source = s.add_mutually_exclusive_group(required=True)
+    source.add_argument("--html", help="Existing external HTML file")
+    source.add_argument("--package-dir", help="Hash-bound render package directory; preserves its Markdown and template")
     s.add_argument("--title")
     s.add_argument("--asset-base-dir")
     s.add_argument("--cover")

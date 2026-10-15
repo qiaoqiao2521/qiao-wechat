@@ -1,5 +1,14 @@
 # Progress
 
+## 2026-10-15：复用渲染器与绑定包入口
+
+- 内容仓已只读查明：132曾成功套固定数学模板，但最终另一份外部HTML入库，未保留Markdown关联。渲染器和99套CSS一直存在；问题是交接绕行，不新增渲染引擎。
+- 新增`html-draft --package-dir`薄适配，复用原create_html_draft／prepare／投递生命周期；校对既有包与当前源稿，在初始文章同时保留Markdown、HTML及受限模板身份。普通HTML入口兼容，更新已有成品仍用原位维护流程。
+- 固定模板ID／版本两个属性参与已有HTML整理保留，其他编辑器私有data仍删除。工作台模板目录由内容仓直接导入ThemeManager和renderer，按需单样例，不启动新publisher服务。
+- 已验：包入口／原CLI／publisher／草稿可靠性／微信导出／HTML整理共87个用例通过；修复保留Markdown后HTML排版变化被内容身份忽略的问题。原HTML API两个测试模块在本机缺httpx，未安装且未冒称已测；默认参数兼容并由publisher既有测试覆盖。没有执行真实微信投递或回读。
+- 进行中：根Codex串行整合两仓、部署436及真实浏览器确认；内容仓plans/wechat-workbench-20261011为主任务记录。
+- 知识收尾：already_covered；复用既有实现与源稿／渲染产物分别绑定的原则已由现有知识页覆盖，未新增重复知识页。
+
 ## Current
 
 2026-09-14（第三轮）：F24 缺口审计中除插件外的 4 项全部补齐并回归（83 pytest / 19 runner / wheel 127 文件）。深色模拟预览、98 套主题（xiaohu 导入 85）、draft-batch 批量草稿、XHS 卡片规划。剩余：真实账号远端验收（需当次授权）。

@@ -80,6 +80,7 @@ class PublishService:
         account_id: int,
         title: str,
         html: str,
+        source_markdown: str = "",
         asset_base_dir: str | None = None,
         author: str | None = None,
         digest: str | None = None,
@@ -104,7 +105,7 @@ class PublishService:
         article = self.create_article(
             account_id=account_id,
             title=title,
-            markdown="",
+            markdown=source_markdown,
             html=html,
             author=author,
             digest=digest,
@@ -840,16 +841,17 @@ class PublishService:
         draft metadata, so retries of the same input hash the same while real
         content or theme changes produce a new revision.
         """
+        ingress = (article.meta or {}).get("content_ingress", "markdown")
         payload = {
             "account_id": article.account_id,
-            "ingress": (article.meta or {}).get("content_ingress", "markdown"),
+            "ingress": ingress,
             "title": article.title,
             "author": article.author or "",
             "digest": article.digest or "",
             "cover_source": article.cover_source or "",
             "content_source_url": article.content_source_url or "",
             "theme": theme if theme is not None else (article.theme or ""),
-            "content": article.markdown or article.html or "",
+            "content": (article.html or "") if ingress == "html" else (article.markdown or article.html or ""),
         }
         cover_info = normalize_cover_info((article.meta or {}).get("cover_info"))
         if cover_info is not None:

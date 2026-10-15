@@ -361,6 +361,14 @@ uv run qiao-wechat html-draft \
   --cover /srv/self-media-exchange/inbox/xueyu-gongzhonghao-receive/posts/runtime-governance/assets/cover.png
 ```
 
+已使用内容仓固定模板打包时，直接传目录：
+
+```bash
+uv run qiao-wechat html-draft --account-id 1 --package-dir /private/confirmed-layout --digest "本次确认的摘要"
+```
+
+该命令会投递到微信草稿箱，须有当次授权。它只读取包内`delivery.html`，核对全部产物与当前Markdown哈希，并在同一文章记录保存Markdown、模板版本和HTML。包模式不接受另传`--html`、封面或素材目录；需要修改时重新打包。普通`--html`入口继续接受明确选择的外部版式，不能冒称固定模板。内容与微信显示由用户验收，不自动回读。更新已有成品使用既有原位维护流程，不用本命令新建副本。
+
 HTTP JSON 入口（文件）：
 
 ```bash
