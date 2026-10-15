@@ -6,7 +6,7 @@
 - 新增`html-draft --package-dir`薄适配，复用原create_html_draft／prepare／投递生命周期；校对既有包与当前源稿，在初始文章同时保留Markdown、HTML及受限模板身份。普通HTML入口兼容，更新已有成品仍用原位维护流程。
 - 固定模板ID／版本两个属性参与已有HTML整理保留，其他编辑器私有data仍删除。工作台模板目录由内容仓直接导入ThemeManager和renderer，按需单样例，不启动新publisher服务。
 - 已验：包入口／原CLI／publisher／草稿可靠性／微信导出／HTML整理共87个用例通过；修复保留Markdown后HTML排版变化被内容身份忽略的问题。原HTML API两个测试模块在本机缺httpx，未安装且未冒称已测；默认参数兼容并由publisher既有测试覆盖。没有执行真实微信投递或回读。
-- 进行中：根Codex串行整合两仓、部署436及真实浏览器确认；内容仓plans/wechat-workbench-20261011为主任务记录。
+- 已交付：两仓代码已普通push，436 publisher ecc82ef／内容c76b5c0部署；既有publisher6个未提交文件与内容54个文件哈希不变，130–134数据库行不变。正式工作台模板浏览器验证通过，新CLI help与132真实旧包纯读取成功，没有执行投递。内容仓plans/wechat-workbench-20261011为主任务记录。
 - 知识收尾：already_covered；复用既有实现与源稿／渲染产物分别绑定的原则已由现有知识页覆盖，未新增重复知识页。
 
 ## Current
